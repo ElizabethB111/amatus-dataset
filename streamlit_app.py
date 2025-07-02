@@ -1,151 +1,124 @@
+# -----------------------------
+# app.py – AMATUS Exploration
+# -----------------------------
+
 import streamlit as st
 import pandas as pd
-import math
+import altair as alt
 from pathlib import Path
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
 
-# Set the title and favicon that appear in the Browser's tab bar.
-st.set_page_config(
-    page_title='GDP dashboard',
-    page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
+# ---------- PAGE CONFIG ----------
+st.set_page_config(page_title="AMATUS", layout="wide", page_icon="🎓")
+
+# ---------- THEME & GLOBAL STYLES ----------
+
+def amatus_theme():
+    font = "Roboto"
+    axis_color = "#4e4e4e"
+    return {
+        "config": {
+            "view": {"continuousWidth": 420, "continuousHeight": 300},
+            "axis": {"labelFont": font, "titleFont": font, "labelColor": axis_color, "titleColor": axis_color, "gridOpacity": 0.15},
+            "legend": {"labelFont": font, "titleFont": font},
+            "title": {"font": font, "fontSize": 18, "anchor": "start", "color": axis_color},
+            "range": {"category": ["#4A90E2", "#50E3C2", "#F5A623", "#9013FE", "#D0021B", "#7ED321"]},
+        }
+    }
+
+alt.themes.register("amatus", amatus_theme)
+alt.themes.enable("amatus")
+
+# Minimal CSS
+st.markdown(
+    """<style>.block-container{padding-top:1rem}h1,h2,h3,h4{color:#1f4e79}</style>""",
+    unsafe_allow_html=True,
 )
 
-# -----------------------------------------------------------------------------
-# Declare some useful functions.
+# ---------- DATA LOADING ----------
+DATA_PATH = Path("AMATUS_dataset.txt")
 
-@st.cache_data
-def get_gdp_data():
-    """Grab GDP data from a CSV file.
+@st.cache_data(show_spinner=False)
+def load_data(path: Path) -> pd.DataFrame:
+    df = pd.read_csv(path, sep=";")
+    return df[~df["sample"].isin(["german_students"])]
 
-    This uses caching to avoid having to read the file every time. If we were
-    reading from an HTTP endpoint instead of a file, it's a good idea to set
-    a maximum age to the cache with the TTL argument: @st.cache_data(ttl='1d')
-    """
+if DATA_PATH.exists():
+    df = load_data(DATA_PATH)
+else:
+    st.error("Dataset not found. Upload the file to proceed.")
+    uploaded = st.file_uploader("Upload AMATUS_dataset.txt", type=["txt", "csv"])
+    if uploaded is None:
+        st.stop()
+    df = load_data(uploaded)
 
-    # Instead of a CSV on disk, you could read from an HTTP endpoint here too.
-    DATA_FILENAME = Path(__file__).parent/'data/gdp_data.csv'
-    raw_gdp_df = pd.read_csv(DATA_FILENAME)
+# ---------- SIDEBAR NAV ----------
+st.sidebar.title("🔍 AMATUS Insights")
+page = st.sidebar.radio("📑 Navigate", ["Overview", "Anxiety Correlations", "Student Profiles", "Score Distribution"], index=0)
 
-    MIN_YEAR = 1960
-    MAX_YEAR = 2022
+amas_cols = [f"AMAS{i}" for i in range(1, 10)]
+amas_labels = {
+    "AMAS1": "Using math tables in a book", "AMAS2": "Thinking about a math test (1 day before)", "AMAS3": "Watching algebra on the board", "AMAS4": "Taking a math exam", "AMAS5": "Difficult math homework due next class", "AMAS6": "Listening to a math lecture", "AMAS7": "Listening to a peer explain math", "AMAS8": "Taking a pop quiz in math class", "AMAS9": "Starting a new math chapter",
+}
 
-    # The data above has columns like:
-    # - Country Name
-    # - Country Code
-    # - [Stuff I don't care about]
-    # - GDP for 1960
-    # - GDP for 1961
-    # - GDP for 1962
-    # - ...
-    # - GDP for 2022
-    #
-    # ...but I want this instead:
-    # - Country Name
-    # - Country Code
-    # - Year
-    # - GDP
-    #
-    # So let's pivot all those year-columns into two: Year and GDP
-    gdp_df = raw_gdp_df.melt(
-        ['Country Code'],
-        [str(x) for x in range(MIN_YEAR, MAX_YEAR + 1)],
-        'Year',
-        'GDP',
-    )
+# -------------------- OVERVIEW --------------------
+if page == "Overview":
+    st.header("🎓 AMATUS Insights")
+    st.subheader("📊 Math Learning Anxiety")
+    with st.expander("About the dataset"):
+        st.markdown("AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [More info](https://osf.io/gszpb/).")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Observations", f"{len(df):,}")
+    col2.metric("Anxiety Items", "9")
+    col3.metric("Clusters", "3 (k‑means)")
 
-    # Convert years from string to integers
-    gdp_df['Year'] = pd.to_numeric(gdp_df['Year'])
+# -------------------- ANXIETY CORRELATIONS --------------------
+elif page == "Anxiety Correlations":
+    st.header("📌 Anxiety Correlations with Learning")
+    corrs = df[amas_cols + ["score_AMAS_learning"]].corr()
+    cor_df = corrs.loc[amas_cols, "score_AMAS_learning"].reset_index()
+    cor_df.columns = ["item", "corr"]
+    cor_df["label"] = cor_df["item"].map(amas_labels)
+    highlight = st.selectbox("Highlight a task", ["(Show all)"] + list(amas_labels.values()))
+    cor_df["hl"] = (cor_df["label"] == highlight) if highlight != "(Show all)" else True
+    chart = alt.Chart(cor_df).mark_bar().encode(
+        y=alt.Y("label:N", sort="-x"), x="corr:Q",
+        color=alt.Color("hl:N", scale=alt.Scale(domain=[True, False], range=["#4A90E2", "#d3d3d3"]), legend=None),
+        tooltip=["label:N", alt.Tooltip("corr:Q", format=".2f")]).properties(height=420)
+    st.altair_chart(chart, use_container_width=True)
 
-    return gdp_df
+# -------------------- STUDENT PROFILES --------------------
+elif page == "Student Profiles":
+    st.header("🧠 Latent Student Profiles: What do students need?")
+    @st.cache_resource
+    def cluster(df_):
+        feats = ["score_AMAS_total", "score_SDQ_M", "sum_arith_perf"]
+        clean = df_.dropna(subset=feats).copy()
+        km = KMeans(n_clusters=3, random_state=42).fit(StandardScaler().fit_transform(clean[feats]))
+        label_map = {0: "Quietly Struggling", 1: "Stressed & Struggling", 2: "Capable but Cautious"}
+        clean["profile"] = pd.Series(km.labels_, index=clean.index).map(label_map)
+        melt = clean.groupby("profile")[feats].mean().reset_index().melt("profile", var_name="metric", value_name="score")
+        return clean, melt
+    prof_df, melt_df = cluster(df)
+    sel = st.multiselect("Select profiles", prof_df["profile"].unique(), default=prof_df["profile"].unique())
+    prof_df["hl"] = prof_df["profile"].isin(sel)
+    left,right = st.columns([3,2])
+    with left:
+        sc = alt.Chart(prof_df).mark_circle(size=70).encode(
+            x=alt.X("score_AMAS_total:Q", title="Math Anxiety"), y=alt.Y("sum_arith_perf:Q", title="Arithmetic Performance"),
+            color="profile:N", opacity=alt.condition("datum.hl", alt.value(0.9), alt.value(0.1)), tooltip=["profile:N","score_SDQ_M:Q"]).properties(height=420)
+        st.altair_chart(sc, use_container_width=True)
+    with right:
+        bar = alt.Chart(melt_df[melt_df["profile"].isin(sel)]).mark_bar().encode(
+            y="metric:N", x="score:Q", color="profile:N", row=alt.Row("profile:N", header=alt.Header(labelAngle=0))).properties(width=220)
+        st.altair_chart(bar, use_container_width=True)
 
-gdp_df = get_gdp_data()
-
-# -----------------------------------------------------------------------------
-# Draw the actual page
-
-# Set the title that appears at the top of the page.
-'''
-# :earth_americas: GDP dashboard
-
-Browse GDP data from the [World Bank Open Data](https://data.worldbank.org/) website. As you'll
-notice, the data only goes to 2022 right now, and datapoints for certain years are often missing.
-But it's otherwise a great (and did I mention _free_?) source of data.
-'''
-
-# Add some spacing
-''
-''
-
-min_value = gdp_df['Year'].min()
-max_value = gdp_df['Year'].max()
-
-from_year, to_year = st.slider(
-    'Which years are you interested in?',
-    min_value=min_value,
-    max_value=max_value,
-    value=[min_value, max_value])
-
-countries = gdp_df['Country Code'].unique()
-
-if not len(countries):
-    st.warning("Select at least one country")
-
-selected_countries = st.multiselect(
-    'Which countries would you like to view?',
-    countries,
-    ['DEU', 'FRA', 'GBR', 'BRA', 'MEX', 'JPN'])
-
-''
-''
-''
-
-# Filter the data
-filtered_gdp_df = gdp_df[
-    (gdp_df['Country Code'].isin(selected_countries))
-    & (gdp_df['Year'] <= to_year)
-    & (from_year <= gdp_df['Year'])
-]
-
-st.header('GDP over time', divider='gray')
-
-''
-
-st.line_chart(
-    filtered_gdp_df,
-    x='Year',
-    y='GDP',
-    color='Country Code',
-)
-
-''
-''
-
-
-first_year = gdp_df[gdp_df['Year'] == from_year]
-last_year = gdp_df[gdp_df['Year'] == to_year]
-
-st.header(f'GDP in {to_year}', divider='gray')
-
-''
-
-cols = st.columns(4)
-
-for i, country in enumerate(selected_countries):
-    col = cols[i % len(cols)]
-
-    with col:
-        first_gdp = first_year[first_year['Country Code'] == country]['GDP'].iat[0] / 1000000000
-        last_gdp = last_year[last_year['Country Code'] == country]['GDP'].iat[0] / 1000000000
-
-        if math.isnan(first_gdp):
-            growth = 'n/a'
-            delta_color = 'off'
-        else:
-            growth = f'{last_gdp / first_gdp:,.2f}x'
-            delta_color = 'normal'
-
-        st.metric(
-            label=f'{country} GDP',
-            value=f'{last_gdp:,.0f}B',
-            delta=growth,
-            delta_color=delta_color
-        )
+# -------------------- SCORE DISTRIBUTION --------------------
+else:
+    st.header("📊 Score Distribution")
+    opts = {
+        "score_AMAS_total":"Math Anxiety Total","score_AMAS_learning":"Math Anxiety Learning","score_AMAS_testing":"Math Evaluation Anxiety","sum_arith_perf":"Arithmetic Performance","score_SDQ_M":"Math Self‑Concept","score_PISA_ME":"Math Self‑Efficacy","score_GAD":"General Anxiety (GAD‑7)","score_TAI_short":"Test Anxiety (TAI‑S)"}
+    m = st.selectbox("Select score", list(opts.keys()), format_func=lambda k:opts[k])
+    hist = alt.Chart(df).mark_bar().encode(alt.X(f"{m}:Q", bin=alt.Bin(maxbins=50)), y="count()")
+    st.altair_chart(hist, use_container_width=True)
