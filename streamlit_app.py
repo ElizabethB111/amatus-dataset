@@ -2,6 +2,8 @@
 # app.py – AMATUS Exploration
 # -----------------------------
 
+# James Test Comment
+
 import streamlit as st
 import pandas as pd
 import altair as alt
@@ -66,12 +68,19 @@ amas_labels = {
 if page == "Overview":
     st.header("🎓 AMATUS Insights")
     st.subheader("📊 Math Learning Anxiety")
+    st.markdown(
+    """
+    Many students experience anxiety when learning math — a challenge that can affect their confidence and performance.  
+    This dashboard helps educators and researchers explore key patterns in math learning anxiety and self-concept.  
+    By understanding student profiles and anxiety triggers, we can better support learners where they need it most. Click on the left to begin exploring.
+    """
+)
+
+    st.image("math photo.png", width=600)
+
     with st.expander("About the dataset"):
         st.markdown("AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [More info](https://osf.io/gszpb/).")
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Observations", f"{len(df):,}")
-    col2.metric("Anxiety Items", "9")
-    col3.metric("Clusters", "3 (k‑means)")
+    
 
 # -------------------- ANXIETY CORRELATIONS --------------------
 elif page == "Anxiety Correlations":
@@ -113,6 +122,22 @@ elif page == "Student Profiles":
         bar = alt.Chart(melt_df[melt_df["profile"].isin(sel)]).mark_bar().encode(
             y="metric:N", x="score:Q", color="profile:N", row=alt.Row("profile:N", header=alt.Header(labelAngle=0))).properties(width=220)
         st.altair_chart(bar, use_container_width=True)
+
+# ---------- PROFILE DESCRIPTIONS ----------
+    st.subheader("🧾 What does each profile mean?")
+    explanations = {
+        "Quietly Struggling": 
+            "These students have mild anxiety but still struggle with performance. They may benefit from targeted academic support or confidence-building.",
+        "Stressed & Struggling": 
+            "These students experience high anxiety and low performance. They may feel overwhelmed and need both emotional and academic intervention.",
+        "Capable but Cautious": 
+            "These students perform well despite some anxiety. They have a healthy self-concept and might just need reassurance to keep thriving.",
+    }
+
+    for profile, summary in explanations.items():
+        with st.expander(profile):
+            st.write(summary)
+
 
 # -------------------- SCORE DISTRIBUTION --------------------
 else:
