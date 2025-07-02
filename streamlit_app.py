@@ -2,7 +2,6 @@
 # app.py – AMATUS Exploration
 # -----------------------------
 
-# James Test Comment
 
 import streamlit as st
 import pandas as pd
