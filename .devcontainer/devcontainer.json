@@ -1,34 +1,30 @@
 {
-  "name": "Python 3",
-  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "name": "AMATUS Python 3.11",
   "image": "mcr.microsoft.com/devcontainers/python:1-3.11-bullseye",
+
+  // Automatically install everything right after the container is built
+  "postCreateCommand": "pip install --upgrade pip && pip install -r requirements.txt",
+
+  // Start Streamlit when the Codespace attaches
+  "postAttachCommand": "streamlit run streamlit_app.py --server.enableCORS false --server.enableXsrfProtection false",
+
   "customizations": {
-    "codespaces": {
-      "openFiles": [
-        "README.md",
-        "streamlit_app.py"
-      ]
-    },
     "vscode": {
-      "settings": {},
       "extensions": [
         "ms-python.python",
         "ms-python.vscode-pylance"
       ]
+    },
+    "codespaces": {
+      "openFiles": ["README.md", "streamlit_app.py"]
     }
   },
-  "updateContentCommand": "[ -f packages.txt ] && sudo apt update && sudo apt upgrade -y && sudo xargs apt install -y <packages.txt; [ -f requirements.txt ] && pip3 install --user -r requirements.txt || pip3 install --user streamlit scikit-learn pandas altair; echo '✅ Packages installed and Requirements met'",
 
-  "postAttachCommand": {
-    "server": "streamlit run streamlit_app.py --server.enableCORS false --server.enableXsrfProtection false"
-  },
   "portsAttributes": {
     "8501": {
-      "label": "Application",
+      "label": "Streamlit",
       "onAutoForward": "openPreview"
     }
   },
-  "forwardPorts": [
-    8501
-  ]
+  "forwardPorts": [8501]
 }
