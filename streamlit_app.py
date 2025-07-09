@@ -171,9 +171,9 @@ elif page == "Student Profiles":
                 opacity=alt.condition("datum.hl", alt.value(0.9), alt.value(0.15)),
                 tooltip=["profile:N", "score_SDQ_M:Q"],
             )
-            .properties(height=380, width=170)
+            .properties(height=380)
         )
-        st.altair_chart(sc, use_container_width=False)
+        st.altair_chart(sc, use_container_width=True)
 
     # Bar chart (right)
     with right:
