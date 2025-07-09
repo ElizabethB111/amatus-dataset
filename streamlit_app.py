@@ -173,7 +173,7 @@ elif page == "Student Profiles":
             )
             .properties(height=380, width=170)
         )
-        st.altair_chart(sc, use_container_width=True)
+        st.altair_chart(sc, use_container_width=False)
 
     # Bar chart (right)
     with right:
