@@ -144,7 +144,7 @@ elif page == "Student Profiles":
     prof_df["hl"] = prof_df["profile"].isin(sel)
 
     # ---------- LAYOUT: scatter (left) | bars (right) ----------
-    left, right = st.columns([2, 1])
+    left, right = st.columns([1, 1])
 
     # --------- Scatter plot (left) ---------
     with left:
@@ -159,7 +159,7 @@ elif page == "Student Profiles":
                                           alt.value(0.9), alt.value(0.15)),
                     tooltip=["profile:N", "score_SDQ_M:Q"],
                 )
-                .properties(width=420, height=380)             # wider again
+                .properties(width=500, height=380)             # wider again
         )
         st.altair_chart(sc, use_container_width=False)
 
