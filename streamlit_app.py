@@ -154,7 +154,7 @@ elif page == "Student Profiles":
                     opacity=alt.condition("datum.hl", alt.value(0.9), alt.value(0.1)),
                     tooltip=["profile:N", "score_SDQ_M:Q"],
                 )
-                .properties(height=420, width=180)
+                .properties(height=380, width=170)
         )
         st.altair_chart(sc, use_container_width=True)
 
@@ -173,7 +173,7 @@ elif page == "Student Profiles":
                         alt.Tooltip("score:Q", format=".2f"),
                     ],
                 )
-                .properties(width=180)
+                .properties(width=170)
         )
         st.altair_chart(bar, use_container_width=True)
 
