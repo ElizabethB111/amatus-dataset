@@ -164,30 +164,28 @@ elif page == "Student Profiles":
         st.altair_chart(sc, use_container_width=False)
 
     # ---------- Bar chart (right) ----------
-    #   • keep colour mapping                      (color="profile:N")
-    #   • hide the row‑facet labels for profiles   (blank header)
-    #   • suppress legend so labels appear only in the scatter plot
     with right:
-        bar = (
-            alt.Chart(melt_df[melt_df["profile"].isin(sel)])
-                .mark_bar()
-                .encode(
-                    y=alt.Y("metric:N", title=""),
-                    x=alt.X("score:Q", title="Mean Score"),
-                    color=alt.Color("profile:N", legend=None),   # same colors, no legend
-                    row=alt.Row(
-                        "profile:N",
-                        header=alt.Header(title=None, labelFontSize=0, labelOpacity=0)
-                    ),
-                    tooltip=[
-                        "profile:N",
-                        "metric:N",
-                        alt.Tooltip("score:Q", format=".2f"),
-                    ],
-                )
-                .properties(width=170)
-        )
-        st.altair_chart(bar, use_container_width=False)
+    bar = (
+        alt.Chart(melt_df[melt_df["profile"].isin(sel)])
+            .mark_bar()
+            .encode(
+                y=alt.Y("metric:N", title=""),
+                x=alt.X("score:Q", title="Mean Score"),
+                color=alt.Color("profile:N", legend=None),
+                row=alt.Row(
+                    "profile:N",
+                    header=alt.Header(labelFontSize=0)  # hides facet labels
+                ),
+                tooltip=[
+                    "profile:N",
+                    "metric:N",
+                    alt.Tooltip("score:Q", format=".2f"),
+                ],
+            )
+            .properties(width=170)
+    )
+    st.altair_chart(bar, use_container_width=False)
+
 
 
 
