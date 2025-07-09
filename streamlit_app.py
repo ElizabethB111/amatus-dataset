@@ -97,13 +97,16 @@ elif page == "Anxiety Correlations":
     st.altair_chart(chart, use_container_width=True)
 
 # -------------------- STUDENT PROFILES --------------------
+# -------------------- STUDENT PROFILES --------------------
 elif page == "Student Profiles":
     st.header("Student Profiles: What do students need?")
 
+    # ---------- helper: cluster students ----------
     @st.cache_resource
     def cluster(df_):
         feats = ["score_AMAS_total", "score_SDQ_M", "sum_arith_perf"]
         clean = df_.dropna(subset=feats).copy()
+
         km = KMeans(n_clusters=3, random_state=42).fit(
             StandardScaler().fit_transform(clean[feats])
         )
@@ -121,10 +124,11 @@ elif page == "Student Profiles":
                  .melt("profile", var_name="metric", value_name="score")
         )
         return clean, melt
+    # ---------------------------------------------
 
     prof_df, melt_df = cluster(df)
 
-    #  Replace metric codes with readable labels
+    # readable metric labels
     metric_labels = {
         "score_SDQ_M":      "Math Anxiety",
         "score_AMAS_total": "Overall Anxiety",
@@ -132,7 +136,7 @@ elif page == "Student Profiles":
     }
     melt_df["metric"] = melt_df["metric"].replace(metric_labels)
 
-    # UI controls
+    # profile selector
     sel = st.multiselect(
         "Select profiles",
         prof_df["profile"].unique(),
@@ -140,24 +144,29 @@ elif page == "Student Profiles":
     )
     prof_df["hl"] = prof_df["profile"].isin(sel)
 
+    # ---------- LAYOUT: tighter columns ----------
     left, right = st.columns([2, 1])
 
-    # Scatter 
+    # ---------- Scatter (left) ----------
     with left:
         sc = (
             alt.Chart(prof_df)
-                .mark_circle(size=70)
+                .mark_circle(size=60)
                 .encode(
                     x=alt.X("score_AMAS_total:Q", title="Math Anxiety"),
                     y=alt.Y("sum_arith_perf:Q", title="Arithmetic Performance"),
-                    color="profile:N",
-                    opacity=alt.condition("datum.hl", alt.value(0.9), alt.value(0.1)),
+                    color=alt.Color("profile:N"),                 # keep legend
+                    opacity=alt.condition("datum.hl", alt.value(0.9), alt.value(0.15)),
                     tooltip=["profile:N", "score_SDQ_M:Q"],
                 )
                 .properties(height=380, width=170)
         )
-        st.altair_chart(sc, use_container_width=True)
+        st.altair_chart(sc, use_container_width=False)
 
+    # ---------- Bar chart (right) ----------
+    #   • keep colour mapping                      (color="profile:N")
+    #   • hide the row‑facet labels for profiles   (blank header)
+    #   • suppress legend so labels appear only in the scatter plot
     with right:
         bar = (
             alt.Chart(melt_df[melt_df["profile"].isin(sel)])
@@ -165,8 +174,11 @@ elif page == "Student Profiles":
                 .encode(
                     y=alt.Y("metric:N", title=""),
                     x=alt.X("score:Q", title="Mean Score"),
-                    color="profile:N",
-                    row=alt.Row("profile:N", header=alt.Header(labelAngle=0)),
+                    color=alt.Color("profile:N", legend=None),   # same colors, no legend
+                    row=alt.Row(
+                        "profile:N",
+                        header=alt.Header(title=None, labelFontSize=0, labelOpacity=0)
+                    ),
                     tooltip=[
                         "profile:N",
                         "metric:N",
@@ -175,7 +187,8 @@ elif page == "Student Profiles":
                 )
                 .properties(width=170)
         )
-        st.altair_chart(bar, use_container_width=True)
+        st.altair_chart(bar, use_container_width=False)
+
 
 
 
