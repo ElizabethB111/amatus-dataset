@@ -11,7 +11,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 
 # ---------- PAGE CONFIG ----------
-st.set_page_config(page_title="AMATUS", layout="wide", page_icon="🎓")
+st.set_page_config(page_title="AMATUS", layout="wide", page_icon="🧮")
 
 # ---------- THEME & GLOBAL STYLES ----------
 
@@ -55,8 +55,8 @@ else:
     df = load_data(uploaded)
 
 # ---------- SIDEBAR NAV ----------
-st.sidebar.title("🔍 AMATUS Insights")
-page = st.sidebar.radio("📑 Navigate", ["Overview", "Anxiety Correlations", "Student Profiles", "Score Distribution"], index=0)
+st.sidebar.title("AMATUS Insights")
+page = st.sidebar.radio("Navigate", ["Overview", "Anxiety Correlations", "Student Profiles", "Score Distribution"], index=0)
 
 amas_cols = [f"AMAS{i}" for i in range(1, 10)]
 amas_labels = {
@@ -65,8 +65,8 @@ amas_labels = {
 
 # -------------------- OVERVIEW --------------------
 if page == "Overview":
-    st.header("🎓 AMATUS Insights")
-    st.subheader("📊 Math Learning Anxiety")
+    st.header("AMATUS Insights")
+    st.subheader("🧮 Math Learning Anxiety")
     st.markdown(
     """
     Many students experience anxiety when learning math — a challenge that can affect their confidence and performance.  
@@ -75,7 +75,7 @@ if page == "Overview":
     """
 )
 
-    st.image("math photo.png", width=600)
+    st.image("math photo.png", width=300)
 
     with st.expander("About the dataset"):
         st.markdown("AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [More info](https://osf.io/gszpb/).")
@@ -83,7 +83,7 @@ if page == "Overview":
 
 # -------------------- ANXIETY CORRELATIONS --------------------
 elif page == "Anxiety Correlations":
-    st.header("📌 Anxiety Correlations with Learning")
+    st.header("Anxiety Correlations with Learning")
     corrs = df[amas_cols + ["score_AMAS_learning"]].corr()
     cor_df = corrs.loc[amas_cols, "score_AMAS_learning"].reset_index()
     cor_df.columns = ["item", "corr"]
@@ -98,7 +98,7 @@ elif page == "Anxiety Correlations":
 
 # -------------------- STUDENT PROFILES --------------------
 elif page == "Student Profiles":
-    st.header("🧠 Latent Student Profiles: What do students need?")
+    st.header("Student Profiles: What do students need?")
     @st.cache_resource
     def cluster(df_):
         feats = ["score_AMAS_total", "score_SDQ_M", "sum_arith_perf"]
@@ -123,7 +123,7 @@ elif page == "Student Profiles":
         st.altair_chart(bar, use_container_width=True)
 
 # ---------- PROFILE DESCRIPTIONS ----------
-    st.subheader("🧾 What does each profile mean?")
+    st.subheader("What does each profile mean?")
     explanations = {
         "Quietly Struggling": 
             "These students have mild anxiety but still struggle with performance. They may benefit from targeted academic support or confidence-building.",
@@ -140,7 +140,7 @@ elif page == "Student Profiles":
 
 # -------------------- SCORE DISTRIBUTION --------------------
 else:
-    st.header("📊 Score Distribution")
+    st.header("Score Distribution")
     opts = {
         "score_AMAS_total":"Math Anxiety Total","score_AMAS_learning":"Math Anxiety Learning","score_AMAS_testing":"Math Evaluation Anxiety","sum_arith_perf":"Arithmetic Performance","score_SDQ_M":"Math Self‑Concept","score_PISA_ME":"Math Self‑Efficacy","score_GAD":"General Anxiety (GAD‑7)","score_TAI_short":"Test Anxiety (TAI‑S)"}
     m = st.selectbox("Select score", list(opts.keys()), format_func=lambda k:opts[k])
