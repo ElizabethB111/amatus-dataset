@@ -159,7 +159,7 @@ elif page == "Student Profiles":
                                           alt.value(0.9), alt.value(0.15)),
                     tooltip=["profile:N", "score_SDQ_M:Q"],
                 )
-                .properties(width=260, height=380)             # wider again
+                .properties(width=380, height=170)             # wider again
         )
         st.altair_chart(sc, use_container_width=False)
 
