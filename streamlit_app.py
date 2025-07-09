@@ -91,7 +91,7 @@ elif page == "Anxiety Correlations":
     highlight = st.selectbox("Highlight a task", ["(Show all)"] + list(amas_labels.values()))
     cor_df["hl"] = (cor_df["label"] == highlight) if highlight != "(Show all)" else True
     chart = alt.Chart(cor_df).mark_bar().encode(
-        y=alt.Y("task:N", sort="-x"), x="corr:Q",
+        y=alt.Y("label:N", sort="-x"), x="corr:Q",
         color=alt.Color("hl:N", scale=alt.Scale(domain=[True, False], range=["#4A90E2", "#d3d3d3"]), legend=None),
         tooltip=["label:N", alt.Tooltip("corr:Q", format=".2f")]).properties(height=420)
     st.altair_chart(chart, use_container_width=True)
