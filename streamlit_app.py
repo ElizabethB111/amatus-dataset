@@ -142,7 +142,7 @@ elif page == "Student Profiles":
 
     left, right = st.columns([3, 2])
 
-    # Scatter (unchanged)
+    # Scatter 
     with left:
         sc = (
             alt.Chart(prof_df)
@@ -154,7 +154,7 @@ elif page == "Student Profiles":
                     opacity=alt.condition("datum.hl", alt.value(0.9), alt.value(0.1)),
                     tooltip=["profile:N", "score_SDQ_M:Q"],
                 )
-                .properties(height=420)
+                .properties(height=420, width=320)
         )
         st.altair_chart(sc, use_container_width=True)
 
