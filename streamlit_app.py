@@ -140,7 +140,7 @@ elif page == "Student Profiles":
     )
     prof_df["hl"] = prof_df["profile"].isin(sel)
 
-    left, right = st.columns([3, 2])
+    left, right = st.columns([2, 1])
 
     # Scatter 
     with left:
