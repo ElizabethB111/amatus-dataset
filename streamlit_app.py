@@ -165,7 +165,7 @@ elif page == "Student Profiles":
 
     # ---------- Bar chart (right) ----------
     with right:
-    bar = (
+        bar = (
         alt.Chart(melt_df[melt_df["profile"].isin(sel)])
             .mark_bar()
             .encode(
