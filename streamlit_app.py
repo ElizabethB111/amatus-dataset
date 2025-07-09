@@ -96,95 +96,50 @@ elif page == "Anxiety Correlations":
         tooltip=["label:N", alt.Tooltip("corr:Q", format=".2f")]).properties(height=420)
     st.altair_chart(chart, use_container_width=True)
 
-# -------------------- STUDENT PROFILES --------------------
-elif page == "Student Profiles":
-    st.header("Student Profiles: What do students need?")
+# ---------- LAYOUT: scatter (left) | bars (right) ----------
+# ❶  Make the right column relatively wider
+# ❷  Shrink the gutter between the columns
+left, right = st.columns([3, 2], gap="small")   # ← new line
 
-    # ---------- helper: cluster students ----------
-    @st.cache_resource
-    def cluster(df_):
-        feats = ["score_AMAS_total", "score_SDQ_M", "sum_arith_perf"]
-        clean = df_.dropna(subset=feats).copy()
-
-        km = KMeans(n_clusters=3, random_state=42).fit(
-            StandardScaler().fit_transform(clean[feats])
+# --------- Scatter plot (left) ---------
+with left:
+    sc = (
+        alt.Chart(prof_df)
+        .mark_circle(size=60)
+        .encode(
+            x=alt.X("score_AMAS_total:Q", title="Math Anxiety"),
+            y=alt.Y("sum_arith_perf:Q", title="Arithmetic Performance"),
+            color=alt.Color("profile:N"),
+            opacity=alt.condition("datum.hl", alt.value(0.9), alt.value(0.15)),
+            tooltip=["profile:N", "score_SDQ_M:Q"],
         )
-        label_map = {
-            0: "Quietly Struggling",
-            1: "Stressed & Struggling",
-            2: "Capable but Cautious",
-        }
-        clean["profile"] = pd.Series(km.labels_, index=clean.index).map(label_map)
-
-        melt = (
-            clean.groupby("profile")[feats]
-                 .mean()
-                 .reset_index()
-                 .melt("profile", var_name="metric", value_name="score")
-        )
-        return clean, melt
-    # ---------------------------------------------
-
-    prof_df, melt_df = cluster(df)
-
-    # readable metric labels
-    metric_labels = {
-        "score_SDQ_M":      "Math Anxiety",
-        "score_AMAS_total": "Overall Anxiety",
-        "sum_arith_perf":   "Test Score",
-    }
-    melt_df["metric"] = melt_df["metric"].replace(metric_labels)
-
-    # profile selector
-    sel = st.multiselect(
-        "Select profiles",
-        prof_df["profile"].unique(),
-        default=prof_df["profile"].unique(),
+        .properties(height=380)                  # ❸ Let Streamlit set the width
     )
-    prof_df["hl"] = prof_df["profile"].isin(sel)
+    st.altair_chart(sc, use_container_width=True)
 
-    # ---------- LAYOUT: scatter (left) | bars (right) ----------
-    left, right = st.columns([1, .5])
-
-    # --------- Scatter plot (left) ---------
-    with left:
-        sc = (
-            alt.Chart(prof_df)
-                .mark_circle(size=60)
-                .encode(
-                    x=alt.X("score_AMAS_total:Q", title="Math Anxiety"),
-                    y=alt.Y("sum_arith_perf:Q", title="Arithmetic Performance"),
-                    color=alt.Color("profile:N"),               # legend kept
-                    opacity=alt.condition("datum.hl",
-                                          alt.value(0.9), alt.value(0.15)),
-                    tooltip=["profile:N", "score_SDQ_M:Q"],
-                )
-                .properties(width=600, height=380)         
+# --------- Bar chart (right) ---------
+with right:
+    bar = (
+        alt.Chart(melt_df[melt_df["profile"].isin(sel)])
+        .mark_bar()
+        .encode(
+            y=alt.Y("metric:N", title=""),
+            x=alt.X("score:Q", title="Mean Score"),
+            color=alt.Color("profile:N", legend=None),
+            row=alt.Row(
+                "profile:N",
+                header=alt.Header(labelFontSize=0, title="")
+            ),
+            tooltip=[
+                "profile:N",
+                "metric:N",
+                alt.Tooltip("score:Q", format=".2f"),
+            ],
         )
-        st.altair_chart(sc, use_container_width=False)
+        .properties(width=280)                   # ❹ Wider bars → fills the column
+    )
+    st.altair_chart(bar, use_container_width=True)
 
-    # --------- Bar chart (right) ---------
-    with right:
-        bar = (
-            alt.Chart(melt_df[melt_df["profile"].isin(sel)])
-                .mark_bar()
-                .encode(
-                    y=alt.Y("metric:N", title=""),
-                    x=alt.X("score:Q", title="Mean Score"),
-                    color=alt.Color("profile:N", legend=None),  # same colours
-                    row=alt.Row(
-                        "profile:N",
-                        header=alt.Header(labelFontSize=0, title="")  # hide labels
-                    ),
-                    tooltip=[
-                        "profile:N",
-                        "metric:N",
-                        alt.Tooltip("score:Q", format=".2f"),
-                    ],
-                )
-                .properties(width=180)
-        )
-        st.altair_chart(bar, use_container_width=False)
 
 # ---------- PROFILE DESCRIPTIONS ----------
     st.subheader("What does each profile mean?")
