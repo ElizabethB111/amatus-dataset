@@ -99,28 +99,86 @@ elif page == "Anxiety Correlations":
 # -------------------- STUDENT PROFILES --------------------
 elif page == "Student Profiles":
     st.header("Student Profiles: What do students need?")
+
+    # ---------------- Clustering helper ----------------
     @st.cache_resource
     def cluster(df_):
         feats = ["score_AMAS_total", "score_SDQ_M", "sum_arith_perf"]
         clean = df_.dropna(subset=feats).copy()
-        km = KMeans(n_clusters=3, random_state=42).fit(StandardScaler().fit_transform(clean[feats]))
-        label_map = {0: "Quietly Struggling", 1: "Stressed & Struggling", 2: "Capable but Cautious"}
+        km = KMeans(n_clusters=3, random_state=42).fit(
+            StandardScaler().fit_transform(clean[feats])
+        )
+        label_map = {
+            0: "Quietly Struggling",
+            1: "Stressed & Struggling",
+            2: "Capable but Cautious",
+        }
         clean["profile"] = pd.Series(km.labels_, index=clean.index).map(label_map)
-        melt = clean.groupby("profile")[feats].mean().reset_index().melt("profile", var_name="metric", value_name="score")
+        melt = (
+            clean.groupby("profile")[feats]
+                 .mean()
+                 .reset_index()
+                 .melt("profile", var_name="metric", value_name="score")
+        )
         return clean, melt
+    # ---------------------------------------------------
+
     prof_df, melt_df = cluster(df)
-    sel = st.multiselect("Select profiles", prof_df["profile"].unique(), default=prof_df["profile"].unique())
+
+    # friendly names for the melted metrics
+    metric_labels = {
+        "score_SDQ_M":      "Math Self-Concept",
+        "score_AMAS_total": "Math Anxiety",
+        "sum_arith_perf":   "Math Performance",
+    }
+    melt_df["metric_label"] = melt_df["metric"].map(metric_labels)
+
+    # ------------------ UI controls -------------------
+    sel = st.multiselect(
+        "Select profiles",
+        prof_df["profile"].unique(),
+        default=prof_df["profile"].unique(),
+    )
     prof_df["hl"] = prof_df["profile"].isin(sel)
-    left,right = st.columns([3,2])
+
+    # ------------------- Scatter ----------------------
+    left, right = st.columns([3, 2])
+
     with left:
-        sc = alt.Chart(prof_df).mark_circle(size=70).encode(
-            x=alt.X("score_AMAS_total:Q", title="Math Anxiety"), y=alt.Y("sum_arith_perf:Q", title="Arithmetic Performance"),
-            color="profile:N", opacity=alt.condition("datum.hl", alt.value(0.9), alt.value(0.1)), tooltip=["profile:N","score_SDQ_M:Q"]).properties(height=420)
+        sc = (
+            alt.Chart(prof_df)
+                .mark_circle(size=70)
+                .encode(
+                    x=alt.X("score_AMAS_total:Q", title="Math Anxiety"),
+                    y=alt.Y("sum_arith_perf:Q", title="Arithmetic Performance"),
+                    color="profile:N",
+                    opacity=alt.condition("datum.hl", alt.value(0.9), alt.value(0.1)),
+                    tooltip=["profile:N", "score_SDQ_M:Q"],
+                )
+                .properties(height=420)
+        )
         st.altair_chart(sc, use_container_width=True)
+
+    # ------------------- Bar chart --------------------
     with right:
-        bar = alt.Chart(melt_df[melt_df["profile"].isin(sel)]).mark_bar().encode(
-            y="metric:N", x="score:Q", color="profile:N", row=alt.Row("profile:N", header=alt.Header(labelAngle=0))).properties(width=220)
+        bar = (
+            alt.Chart(melt_df[melt_df["profile"].isin(sel)])
+                .mark_bar()
+                .encode(
+                    y=alt.Y("metric_label:N", title=""),      # friendly labels
+                    x=alt.X("score:Q", title="Mean Score"),
+                    color="profile:N",
+                    row=alt.Row("profile:N", header=alt.Header(labelAngle=0)),
+                    tooltip=[
+                        "profile:N",
+                        "metric_label:N",
+                        alt.Tooltip("score:Q", format=".2f"),
+                    ],
+                )
+                .properties(width=220)
+        )
         st.altair_chart(bar, use_container_width=True)
+
 
 # ---------- PROFILE DESCRIPTIONS ----------
     st.subheader("What does each profile mean?")
