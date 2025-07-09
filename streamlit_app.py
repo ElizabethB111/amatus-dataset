@@ -97,7 +97,6 @@ elif page == "Anxiety Correlations":
     st.altair_chart(chart, use_container_width=True)
 
 # -------------------- STUDENT PROFILES --------------------
-# -------------------- STUDENT PROFILES --------------------
 elif page == "Student Profiles":
     st.header("Student Profiles: What do students need?")
 
@@ -144,10 +143,10 @@ elif page == "Student Profiles":
     )
     prof_df["hl"] = prof_df["profile"].isin(sel)
 
-    # ---------- LAYOUT: tighter columns ----------
+    # ---------- LAYOUT: scatter (left) | bars (right) ----------
     left, right = st.columns([2, 1])
 
-    # ---------- Scatter (left) ----------
+    # --------- Scatter plot (left) ---------
     with left:
         sc = (
             alt.Chart(prof_df)
@@ -155,40 +154,37 @@ elif page == "Student Profiles":
                 .encode(
                     x=alt.X("score_AMAS_total:Q", title="Math Anxiety"),
                     y=alt.Y("sum_arith_perf:Q", title="Arithmetic Performance"),
-                    color=alt.Color("profile:N"),                 # keep legend
-                    opacity=alt.condition("datum.hl", alt.value(0.9), alt.value(0.15)),
+                    color=alt.Color("profile:N"),               # legend kept
+                    opacity=alt.condition("datum.hl",
+                                          alt.value(0.9), alt.value(0.15)),
                     tooltip=["profile:N", "score_SDQ_M:Q"],
                 )
-                .properties(height=380, width=170)
+                .properties(width=260, height=380)             # wider again
         )
         st.altair_chart(sc, use_container_width=False)
 
-    # ---------- Bar chart (right) ----------
+    # --------- Bar chart (right) ---------
     with right:
         bar = (
-        alt.Chart(melt_df[melt_df["profile"].isin(sel)])
-            .mark_bar()
-            .encode(
-                y=alt.Y("metric:N", title=""),
-                x=alt.X("score:Q", title="Mean Score"),
-                color=alt.Color("profile:N", legend=None),
-                row=alt.Row(
-                    "profile:N",
-                    header=alt.Header(labelFontSize=0)  # hides facet labels
-                ),
-                tooltip=[
-                    "profile:N",
-                    "metric:N",
-                    alt.Tooltip("score:Q", format=".2f"),
-                ],
-            )
-            .properties(width=170)
-    )
-    st.altair_chart(bar, use_container_width=False)
-
-
-
-
+            alt.Chart(melt_df[melt_df["profile"].isin(sel)])
+                .mark_bar()
+                .encode(
+                    y=alt.Y("metric:N", title=""),
+                    x=alt.X("score:Q", title="Mean Score"),
+                    color=alt.Color("profile:N", legend=None),  # same colours
+                    row=alt.Row(
+                        "profile:N",
+                        header=alt.Header(labelFontSize=0, title="")  # hide labels
+                    ),
+                    tooltip=[
+                        "profile:N",
+                        "metric:N",
+                        alt.Tooltip("score:Q", format=".2f"),
+                    ],
+                )
+                .properties(width=180)
+        )
+        st.altair_chart(bar, use_container_width=False)
 
 # ---------- PROFILE DESCRIPTIONS ----------
     st.subheader("What does each profile mean?")
