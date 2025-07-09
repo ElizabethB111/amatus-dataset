@@ -100,7 +100,6 @@ elif page == "Anxiety Correlations":
 elif page == "Student Profiles":
     st.header("Student Profiles: What do students need?")
 
-    # ---------------- Clustering helper ----------------
     @st.cache_resource
     def cluster(df_):
         feats = ["score_AMAS_total", "score_SDQ_M", "sum_arith_perf"]
@@ -114,6 +113,7 @@ elif page == "Student Profiles":
             2: "Capable but Cautious",
         }
         clean["profile"] = pd.Series(km.labels_, index=clean.index).map(label_map)
+
         melt = (
             clean.groupby("profile")[feats]
                  .mean()
@@ -121,19 +121,18 @@ elif page == "Student Profiles":
                  .melt("profile", var_name="metric", value_name="score")
         )
         return clean, melt
-    # ---------------------------------------------------
 
     prof_df, melt_df = cluster(df)
 
-    # friendly names for the melted metrics
+    #  Replace metric codes with readable labels
     metric_labels = {
-        "score_SDQ_M":      "Math Self-Concept",
-        "score_AMAS_total": "Math Anxiety",
-        "sum_arith_perf":   "Math Performance",
+        "score_SDQ_M":      "Math Anxiety",
+        "score_AMAS_total": "Overall Anxiety",
+        "sum_arith_perf":   "Test Score",
     }
-    melt_df["metric_label"] = melt_df["metric"].map(metric_labels)
+    melt_df["metric"] = melt_df["metric"].replace(metric_labels)
 
-    # ------------------ UI controls -------------------
+    # UI controls
     sel = st.multiselect(
         "Select profiles",
         prof_df["profile"].unique(),
@@ -141,9 +140,9 @@ elif page == "Student Profiles":
     )
     prof_df["hl"] = prof_df["profile"].isin(sel)
 
-    # ------------------- Scatter ----------------------
     left, right = st.columns([3, 2])
 
+    # Scatter (unchanged)
     with left:
         sc = (
             alt.Chart(prof_df)
@@ -159,25 +158,25 @@ elif page == "Student Profiles":
         )
         st.altair_chart(sc, use_container_width=True)
 
-    # ------------------- Bar chart --------------------
     with right:
         bar = (
             alt.Chart(melt_df[melt_df["profile"].isin(sel)])
                 .mark_bar()
                 .encode(
-                    y=alt.Y("metric_label:N", title=""),      # friendly labels
+                    y=alt.Y("metric:N", title=""),
                     x=alt.X("score:Q", title="Mean Score"),
                     color="profile:N",
                     row=alt.Row("profile:N", header=alt.Header(labelAngle=0)),
                     tooltip=[
                         "profile:N",
-                        "metric_label:N",
+                        "metric:N",
                         alt.Tooltip("score:Q", format=".2f"),
                     ],
                 )
                 .properties(width=220)
         )
         st.altair_chart(bar, use_container_width=True)
+
 
 
 # ---------- PROFILE DESCRIPTIONS ----------
