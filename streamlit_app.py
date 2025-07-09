@@ -83,6 +83,7 @@ if page == "Overview":
             "AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [More info](https://osf.io/gszpb/)."
         )
 
+
 elif page == "Anxiety Correlations":
     st.header("Anxiety Correlations with Learning")
     corrs = df[amas_cols + ["score_AMAS_learning"]].corr()
@@ -108,10 +109,54 @@ elif page == "Anxiety Correlations":
     )
     st.altair_chart(chart, use_container_width=True)
 
+
 elif page == "Student Profiles":
     st.header("Student Profiles: What do students need?")
 
-    # Layout: scatter (left) | bars (right)
+    # ---------- helper: cluster students ----------
+    @st.cache_resource
+    def cluster(df_):
+        feats = ["score_AMAS_total", "score_SDQ_M", "sum_arith_perf"]
+        clean = df_.dropna(subset=feats).copy()
+
+        km = KMeans(n_clusters=3, random_state=42).fit(
+            StandardScaler().fit_transform(clean[feats])
+        )
+        label_map = {
+            0: "Quietly Struggling",
+            1: "Stressed & Struggling",
+            2: "Capable but Cautious",
+        }
+        clean["profile"] = pd.Series(km.labels_, index=clean.index).map(label_map)
+
+        melt = (
+            clean.groupby("profile")[feats]
+            .mean()
+            .reset_index()
+            .melt("profile", var_name="metric", value_name="score")
+        )
+        return clean, melt
+
+    # Run clustering and prepare dataframes
+    prof_df, melt_df = cluster(df)
+
+    # Prepare metric labels
+    metric_labels = {
+        "score_SDQ_M": "Math Anxiety",
+        "score_AMAS_total": "Overall Anxiety",
+        "sum_arith_perf": "Test Score",
+    }
+    melt_df["metric"] = melt_df["metric"].replace(metric_labels)
+
+    # Profile selector
+    sel = st.multiselect(
+        "Select profiles",
+        prof_df["profile"].unique(),
+        default=prof_df["profile"].unique(),
+    )
+    prof_df["hl"] = prof_df["profile"].isin(sel)
+
+    # ---------- LAYOUT: scatter (left) | bars (right) ----------
     left, right = st.columns([3, 2], gap="small")
 
     # Scatter plot (left)
@@ -174,6 +219,7 @@ elif page == "Student Profiles":
         with st.expander(profile):
             st.write(summary)
 
+
 else:  # Score Distribution
     st.header("Score Distribution")
     opts = {
@@ -193,3 +239,4 @@ else:  # Score Distribution
         .encode(alt.X(f"{m}:Q", bin=alt.Bin(maxbins=50)), y="count()")
     )
     st.altair_chart(hist, use_container_width=True)
+
