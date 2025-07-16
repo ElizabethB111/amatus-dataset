@@ -67,8 +67,8 @@ amas_labels = {
 # -------------------- PAGE SELECTION CONTROL FLOW --------------------
 
 if page == "Overview":
-    st.header("AMATUS Insights")
-    st.subheader("🧮 Math Learning Anxiety")
+    st.header("Insights to Math Learning")
+    st.subheader("🧮 What Constitutes Math Learning Anxiety?")
     st.markdown(
         """
         Many students experience anxiety when learning math — a challenge that can affect their confidence and performance.  
@@ -78,14 +78,14 @@ if page == "Overview":
     )
     st.image("math photo.png", width=300)
 
-    with st.expander("About the dataset"):
+    with st.expander("About the underlying dataset"):
         st.markdown(
             "AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [More info](https://osf.io/gszpb/)."
         )
 
 
 elif page == "Anxiety Correlations":
-    st.header("Anxiety Correlations with Learning")
+    st.header("What tasks cause anxiety while learning math?")
     corrs = df[amas_cols + ["score_AMAS_learning"]].corr()
     cor_df = corrs.loc[amas_cols, "score_AMAS_learning"].reset_index()
     cor_df.columns = ["item", "corr"]
@@ -111,7 +111,7 @@ elif page == "Anxiety Correlations":
 
 
 elif page == "Student Profiles":
-    st.header("Student Profiles: What do students need?")
+    st.header("What kinds of students are learning math?")
 
     # ---------- helper: cluster students ----------
     @st.cache_resource
