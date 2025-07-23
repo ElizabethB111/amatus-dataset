@@ -67,7 +67,7 @@ amas_labels = {
 # -------------------- PAGE SELECTION CONTROL FLOW --------------------
 
 if page == "Overview":
-    st.header("Insights to Math Learning")
+    st.header("AMATUS Insights")
     st.subheader("🧮 What Constitutes Math Learning Anxiety?")
     st.markdown(
         """
