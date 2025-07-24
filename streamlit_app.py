@@ -48,7 +48,7 @@ def load_data(path: Path) -> pd.DataFrame:
 
 # ---------- SIDEBAR NAV ----------
 st.sidebar.title("AMATUS Insights")
-page = st.sidebar.radio("Navigate", ["Overview", "Score Distribution", "Anxiety Correlations", "Student Profiles"], index=0)
+page = st.sidebar.radio("Navigate", ["Overview", "Score Distribution", "Anxiety-Inducing Tasks", "Student Profiles"], index=0)
 
 amas_cols = [f"AMAS{i}" for i in range(1, 10)]
 amas_labels = {
@@ -76,7 +76,7 @@ if page == "Overview":
         )
 
 
-elif page == "Anxiety Correlations":
+elif page == "Anxiety-Inducing Tasks":
     st.header("What tasks cause anxiety while learning math?")
     corrs = df[amas_cols + ["score_AMAS_learning"]].corr()
     cor_df = corrs.loc[amas_cols, "score_AMAS_learning"].reset_index()
