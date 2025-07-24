@@ -96,7 +96,9 @@ elif page == "Anxiety-Inducing Tasks":
         alt.Chart(cor_df)
         .mark_bar()
         .encode(
-            y=alt.Y("label:N", sort="-x", title="Task", axis=alt.Axis(labelLimit=300, labelAlign="left")),
+            y=alt.Y("label:N", sort="-x", title="Task", axis=alt.Axis(labelLimit=1000,   
+                labelAlign="right", 
+                labelFontSize=12)),
             x=alt.X("corr:Q", title="Correlation with Math Learning Anxiety"),
             color=alt.Color(
                 "hl:N",
