@@ -56,7 +56,7 @@ else:
 
 # ---------- SIDEBAR NAV ----------
 st.sidebar.title("AMATUS Insights")
-page = st.sidebar.radio("Navigate", ["Overview", "Score Distribution", "Anxiety-Inducing Tasks", "Student Profiles"], index=0)
+page = st.sidebar.radio("Navigate", ["Overview", "Score Distribution", "Anxiety Correlations", "Student Profiles"], index=0)
 
 amas_cols = [f"AMAS{i}" for i in range(1, 10)]
 amas_labels = {
@@ -84,8 +84,8 @@ if page == "Overview":
         )
 
 
-elif page == "Anxiety-Inducing Tasks":
-    st.header("What tasks cause anxiety while learning math?")
+elif page == "Anxiety Correlations":
+    st.header("Anxiety Correlations: What tasks cause anxiety while learning math?")
     corrs = df[amas_cols + ["score_AMAS_learning"]].corr()
     cor_df = corrs.loc[amas_cols, "score_AMAS_learning"].reset_index()
     cor_df.columns = ["item", "corr"]
@@ -113,7 +113,7 @@ elif page == "Anxiety-Inducing Tasks":
 
 
 elif page == "Student Profiles":
-    st.header("What kinds of students are learning math?")
+    st.header("Student Profiles: What kinds of students are learning math?")
 
     # ---------- helper: cluster students ----------
     @st.cache_resource
