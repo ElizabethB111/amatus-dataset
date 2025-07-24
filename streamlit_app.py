@@ -44,7 +44,15 @@ DATA_PATH = Path("AMATUS_dataset.txt")
 def load_data(path: Path) -> pd.DataFrame:
     df = pd.read_csv(path, sep=";")
     return df[~df["sample"].isin(["german_students"])]
-
+    
+if DATA_PATH.exists():
+    df = load_data(DATA_PATH)
+else:
+    st.error("Dataset not found. Upload the file to proceed.")
+    uploaded = st.file_uploader("Upload AMATUS_dataset.txt", type=["txt", "csv"])
+    if uploaded is None:
+        st.stop()
+    df = load_data(uploaded)
 
 # ---------- SIDEBAR NAV ----------
 st.sidebar.title("AMATUS Insights")
