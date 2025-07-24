@@ -55,7 +55,7 @@ else:
     df = load_data(uploaded)
 
 # ---------- SIDEBAR NAV ----------
-st.sidebar.title("AMATUS Insights")
+st.sidebar.title(" Insights")
 page = st.sidebar.radio("Navigate", ["Overview", "Anxiety Correlations", "Student Profiles", "Score Distribution"], index=0)
 
 amas_cols = [f"AMAS{i}" for i in range(1, 10)]
