@@ -47,8 +47,8 @@ def load_data(path: Path) -> pd.DataFrame:
 
 
 # ---------- SIDEBAR NAV ----------
-st.sidebar.title(" Insights")
-page = st.sidebar.radio("Navigate", ["Overview", "Anxiety Correlations", "Student Profiles", "Score Distribution"], index=0)
+st.sidebar.title("AMATUS Insights")
+page = st.sidebar.radio("Navigate", ["Overview", "Score Distribution", "Anxiety Correlations", "Student Profiles"], index=0)
 
 amas_cols = [f"AMAS{i}" for i in range(1, 10)]
 amas_labels = {
