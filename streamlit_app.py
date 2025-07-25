@@ -117,6 +117,19 @@ elif page == "Anxiety Triggers":
     st.altair_chart(chart, use_container_width=True)
 
 
+    # Executive Summary
+    st.markdown("---")
+    st.subheader("👩‍🏫 What This Means for Teachers")
+    st.markdown(
+        """
+        - **Visual tasks like watching math on the board** or **starting a new topic** show the strongest links to anxiety.  
+        - **Passive learning situations** such as lectures and peer explanations are also key anxiety triggers.  
+        - **Practical takeaway:** Reduce passive intake and increase **interactive, hands-on experiences** to lower anxiety.  
+        - Consider **warm-up activities, visuals with narration, and group discussion** to ease students into new content.  
+        - These changes are most effective when introduced before or during **conceptual learning**, not just testing situations.
+        """
+    )
+
 
 
 elif page == "Student Profiles":
