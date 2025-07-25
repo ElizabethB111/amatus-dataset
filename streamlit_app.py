@@ -150,7 +150,7 @@ elif page == "Anxiety Triggers":
         """
     )
 
-
+#------------------------------#
 
 elif page == "Student Profiles":
     st.header("Student Profiles: What kinds of students are learning math?")
@@ -230,7 +230,13 @@ elif page == "Student Profiles":
                 y=alt.Y("sum_arith_perf:Q", title="Arithmetic Performance"),
                 color=alt.Color("profile:N"),
                 opacity=alt.condition("datum.hl", alt.value(0.9), alt.value(0.15)),
-                tooltip=["profile:N", "score_SDQ_M:Q"],
+                tooltip=[
+                    alt.Tooltip("profile:N", title="Profile"),
+                    alt.Tooltip("score_AMAS_total:Q", title="Math Anxiety"),
+                    alt.Tooltip("sum_arith_perf:Q", title="Arithmetic Performance"),
+                    alt.Tooltip("score_SDQ_M:Q", title="Math Self‑Concept"),
+],
+
             )
             .properties(height=380)
         )
