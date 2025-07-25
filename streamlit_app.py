@@ -262,7 +262,6 @@ elif page == "Student Profiles":
             st.write(summary)
 
 
-
 else:  # Score Distribution
     st.header("Score Distribution")
     
@@ -276,19 +275,31 @@ else:  # Score Distribution
         "score_GAD": "General Anxiety (GAD‑7)",
         "score_TAI_short": "Test Anxiety (TAI‑S)",
     }
-    
+
+    scale_notes = {
+        "score_AMAS_total": "Scale: 9–45. Higher = worse math anxiety.",
+        "score_AMAS_learning": "Scale: 5–25. Higher = worse anxiety about learning math.",
+        "score_AMAS_testing": "Scale: 4–20. Higher = worse anxiety about math evaluation.",
+        "sum_arith_perf": "Scale: 0–40. Higher = better arithmetic performance.",
+        "score_SDQ_M": "Scale: 4–16. Higher = stronger math self‑concept.",
+        "score_PISA_ME": "Scale: 6–24. Higher = stronger math self‑efficacy.",
+        "score_GAD": "Scale: 7–28. Higher = more general anxiety.",
+        "score_TAI_short": "Scale: 5–20. Higher = more test anxiety.",
+    }
+
     m = st.selectbox("Select score", list(opts.keys()), format_func=lambda k: opts[k])
 
-    # Updated: set axis title using friendly label from opts
     hist = (
         alt.Chart(df)
         .mark_bar()
         .encode(
-            x=alt.X(f"{m}:Q", bin=alt.Bin(maxbins=50), title=opts[m]),  
+            x=alt.X(f"{m}:Q", bin=alt.Bin(maxbins=50), title=opts[m]),
             y=alt.Y("count()", title="Number of Students")
         )
     )
-
     st.altair_chart(hist, use_container_width=True)
+
+    # Show scale description
+    st.caption(scale_notes.get(m, ""))
 
 
