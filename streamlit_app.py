@@ -140,7 +140,7 @@ elif page == "Anxiety Triggers":
 
     # Executive Summary
     st.markdown("---")
-    st.subheader("👩‍🏫 What This Means for Teachers")
+    st.subheader("What This Means for Teachers")
     st.markdown(
         """
         - **Visual tasks like watching math on the board** or **starting a new topic** show the strongest links to learning anxiety.  
