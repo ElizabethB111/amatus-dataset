@@ -154,7 +154,26 @@ elif page == "Anxiety Triggers":
 
 elif page == "Student Profiles":
     st.header("Student Profiles: What kinds of students are learning math?")
+    # Profile explanations
+    st.subheader("What does each profile mean?")
+    explanations = {
+        "Quietly Struggling": (
+            "These students have mild anxiety but still struggle with performance. "
+            "They may benefit from targeted academic support or confidence-building."
+        ),
+        "Stressed & Struggling": (
+            "These students experience high anxiety and low performance. "
+            "They may feel overwhelmed and need both emotional and academic intervention."
+        ),
+        "Capable but Cautious": (
+            "These students perform well despite some anxiety. "
+            "They have a healthy self-concept and might just need reassurance to keep thriving."
+        ),
+    }
 
+    for profile, summary in explanations.items():
+        with st.expander(profile):
+            st.write(summary)
     # ---------- helper: cluster students ----------
     @st.cache_resource
     def cluster(df_):
@@ -260,7 +279,7 @@ elif page == "Student Profiles":
     for profile, summary in explanations.items():
         with st.expander(profile):
             st.write(summary)
-
+#--------------------------------#
 
 else:  # Score Distribution
     st.header("Score Distribution")
