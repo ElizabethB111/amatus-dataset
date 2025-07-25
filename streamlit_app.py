@@ -90,6 +90,9 @@ elif page == "Anxiety Correlations":
     cor_df = corrs.loc[amas_cols, "score_AMAS_learning"].reset_index()
     cor_df.columns = ["item", "corr"]
     cor_df["label"] = cor_df["item"].map(amas_labels)
+     # Exclude test-related items from chart
+    exclude_items = ["AMAS2", "AMAS4", "AMAS8"]
+    cor_df = cor_df[~cor_df["item"].isin(exclude_items)]
     highlight = st.selectbox("Highlight a task", ["(Show all)"] + list(amas_labels.values()))
     cor_df["hl"] = (cor_df["label"] == highlight) if highlight != "(Show all)" else True
     chart = (
