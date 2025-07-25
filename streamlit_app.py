@@ -12,6 +12,23 @@ from sklearn.cluster import KMeans
 
 # ---------- PAGE CONFIG ----------
 st.set_page_config(page_title="AMATUS", layout="wide", page_icon="🧮")
+st.markdown(
+    """
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+    body, .markdown-text-container, .stTextInput > div > input {
+        font-family: 'Roboto', sans-serif !important;
+    }
+
+    .vega-embed * {
+        font-family: 'Roboto', sans-serif !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 # ---------- THEME & GLOBAL STYLES ----------
 
