@@ -85,7 +85,7 @@ if page == "Overview":
 
 
 elif page == "Anxiety Triggers":
-    st.header("What tasks cause anxiety while learning math?")
+    st.header("Anxiety Triggers: What tasks cause most anxiety while learning math?")
     
     # Compute correlations
     corrs = df[amas_cols + ["score_AMAS_learning"]].corr()
