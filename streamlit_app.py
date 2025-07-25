@@ -56,7 +56,7 @@ else:
 
 # ---------- SIDEBAR NAV ----------
 st.sidebar.title("AMATUS Insights")
-page = st.sidebar.radio("Navigate", ["Overview", "Score Distribution", "Anxiety Correlations", "Student Profiles"], index=0)
+page = st.sidebar.radio("Navigate", ["Overview", "Score Distribution", "Anxiety Triggers", "Student Profiles"], index=0)
 
 amas_cols = [f"AMAS{i}" for i in range(1, 10)]
 amas_labels = {
@@ -84,8 +84,8 @@ if page == "Overview":
         )
 
 
-elif page == "Anxiety Correlations":
-    st.header("Anxiety Correlations: What tasks cause anxiety while learning math?")
+elif page == "Anxiety Triggers":
+    st.header("What tasks cause anxiety while learning math?")
     
     # Compute correlations
     corrs = df[amas_cols + ["score_AMAS_learning"]].corr()
