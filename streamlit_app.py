@@ -122,11 +122,10 @@ elif page == "Anxiety Triggers":
     st.subheader("👩‍🏫 What This Means for Teachers")
     st.markdown(
         """
-        - **Visual tasks like watching math on the board** or **starting a new topic** show the strongest links to anxiety.  
-        - **Passive learning situations** such as lectures and peer explanations are also key anxiety triggers.  
+        - **Visual tasks like watching math on the board** or **starting a new topic** show the strongest links to learning anxiety.  
+        - **Passive learning situations** such as lectures and peer explanations are also high math anxiety triggers.  
         - **Practical takeaway:** Reduce passive intake and increase **interactive, hands-on experiences** to lower anxiety.  
-        - Consider **warm-up activities, visuals with narration, and group discussion** to ease students into new content.  
-        - These changes are most effective when introduced before or during **conceptual learning**, not just testing situations.
+        - Consider using **math manipulatives with narration and individual whiteboard work following along with the board** to ease students into new content.  
         """
     )
 
