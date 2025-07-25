@@ -112,6 +112,10 @@ elif page == "Anxiety Triggers":
         )
         .add_selection(selection)
         .properties(height=420)
+        .configure_axis(labelFont="Roboto", titleFont="Roboto")
+        .configure_title(font="Roboto")
+        .configure_legend(labelFont="Roboto", titleFont="Roboto")
+
     )
 
     st.altair_chart(chart, use_container_width=True)
