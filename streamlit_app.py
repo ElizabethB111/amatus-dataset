@@ -262,8 +262,10 @@ elif page == "Student Profiles":
             st.write(summary)
 
 
+
 else:  # Score Distribution
     st.header("Score Distribution")
+    
     opts = {
         "score_AMAS_total": "Math Anxiety Total",
         "score_AMAS_learning": "Math Anxiety Learning",
@@ -274,11 +276,19 @@ else:  # Score Distribution
         "score_GAD": "General Anxiety (GAD‑7)",
         "score_TAI_short": "Test Anxiety (TAI‑S)",
     }
+    
     m = st.selectbox("Select score", list(opts.keys()), format_func=lambda k: opts[k])
+
+    # Updated: set axis title using friendly label from opts
     hist = (
         alt.Chart(df)
         .mark_bar()
-        .encode(alt.X(f"{m}:Q", bin=alt.Bin(maxbins=50)), y="count()")
+        .encode(
+            x=alt.X(f"{m}:Q", bin=alt.Bin(maxbins=50), title=opts[m]),  
+            y=alt.Y("count()", title="Number of Students")
+        )
     )
+
     st.altair_chart(hist, use_container_width=True)
+
 
