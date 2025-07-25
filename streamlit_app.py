@@ -86,33 +86,29 @@ if page == "Overview":
 
 elif page == "Anxiety Correlations":
     st.header("Anxiety Correlations: What tasks cause anxiety while learning math?")
+    
     corrs = df[amas_cols + ["score_AMAS_learning"]].corr()
     cor_df = corrs.loc[amas_cols, "score_AMAS_learning"].reset_index()
     cor_df.columns = ["item", "corr"]
     cor_df["label"] = cor_df["item"].map(amas_labels)
-     # Exclude test-related items from chart
+
+    # Exclude test-related items from chart
     exclude_items = ["AMAS2", "AMAS4", "AMAS8"]
     cor_df = cor_df[~cor_df["item"].isin(exclude_items)]
-    highlight = st.selectbox("Highlight a task", ["(Show all)"] + list(amas_labels.values()))
-    cor_df["hl"] = (cor_df["label"] == highlight) if highlight != "(Show all)" else True
+
     chart = (
         alt.Chart(cor_df)
         .mark_bar()
         .encode(
-            y=alt.Y("label:N", sort="-x", title="Task", axis=alt.Axis(labelLimit=1000,   
-                labelAlign="right", 
-                labelFontSize=12)),
+            y=alt.Y("label:N", sort="-x", title="Task", axis=alt.Axis(labelLimit=1000, labelAlign="right", labelFontSize=12)),
             x=alt.X("corr:Q", title="Correlation with Math Learning Anxiety"),
-            color=alt.Color(
-                "hl:N",
-                scale=alt.Scale(domain=[True, False], range=["#4A90E2", "#d3d3d3"]),
-                legend=None,
-            ),
+            color=alt.value("#4A90E2"),
             tooltip=["label:N", alt.Tooltip("corr:Q", format=".2f")],
         )
         .properties(height=420)
     )
     st.altair_chart(chart, use_container_width=True)
+
 
 
 elif page == "Student Profiles":
