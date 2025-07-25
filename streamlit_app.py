@@ -87,27 +87,35 @@ if page == "Overview":
 elif page == "Anxiety Correlations":
     st.header("Anxiety Correlations: What tasks cause anxiety while learning math?")
     
+    # Compute correlations
     corrs = df[amas_cols + ["score_AMAS_learning"]].corr()
     cor_df = corrs.loc[amas_cols, "score_AMAS_learning"].reset_index()
     cor_df.columns = ["item", "corr"]
     cor_df["label"] = cor_df["item"].map(amas_labels)
 
-    # Exclude test-related items from chart
+    # Exclude test-related items
     exclude_items = ["AMAS2", "AMAS4", "AMAS8"]
     cor_df = cor_df[~cor_df["item"].isin(exclude_items)]
 
+    # Altair click selection
+    selection = alt.selection_single(fields=["label"], empty="all")
+
+    # Chart
     chart = (
         alt.Chart(cor_df)
         .mark_bar()
         .encode(
             y=alt.Y("label:N", sort="-x", title="Task", axis=alt.Axis(labelLimit=1000, labelAlign="right", labelFontSize=12)),
             x=alt.X("corr:Q", title="Correlation with Math Learning Anxiety"),
-            color=alt.value("#4A90E2"),
+            color=alt.condition(selection, alt.value("#4A90E2"), alt.value("#d3d3d3")),
             tooltip=["label:N", alt.Tooltip("corr:Q", format=".2f")],
         )
+        .add_selection(selection)
         .properties(height=420)
     )
+
     st.altair_chart(chart, use_container_width=True)
+
 
 
 
