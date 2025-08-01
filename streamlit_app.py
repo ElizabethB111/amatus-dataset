@@ -306,9 +306,11 @@ elif page == "Anxiety Triggers":
     st.markdown("### What This Means for Teachers")
     st.markdown(
         """
+        - On a scale of 0-1, with 1 being higher correlation, all of these math learning tasks trigger relatively high anxiety.
         - **Visual tasks** like *watching math on the board* or *starting a new topic* show the strongest anxiety links.  
         - **Passive learning** (e.g., lectures, peer explanations) also trigger higher anxiety.  
         - **Actionable tip:** Minimize passive delivery and include **hands-on, interactive tasks** like narrated examples, mini whiteboard work, and manipulatives.
+        - Since most students reported low math learning anxiety (see Score Distributions), these findings suggest that students may experience more anxiety than they report.
         """
     )
 
