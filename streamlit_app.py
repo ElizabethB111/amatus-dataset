@@ -34,7 +34,7 @@ st.markdown(
 
 def amatus_theme():
     font = "Roboto"
-    axis_color = "#374151"  # A softer charcoal
+    axis_color = "#374151"  
     return {
         "config": {
             "view": {"continuousWidth": 420, "continuousHeight": 300},
@@ -95,8 +95,39 @@ else:
     df = load_data(uploaded)
 
 # ---------- SIDEBAR NAV ----------
-st.sidebar.title("AMATUS Insights")
-page = st.sidebar.radio("Navigate", ["Overview", "Score Distribution", "Anxiety Triggers", "Student Profiles"], index=0)
+# ---------- SIDEBAR ----------
+st.sidebar.markdown("""
+<style>
+.sidebar-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1f4e79;
+    margin-bottom: 1rem;
+}
+.sidebar-nav label {
+    font-size: 1.05rem;
+    color: #374151;
+    margin: 0.25rem 0;
+}
+.sidebar-nav input[type="radio"]:checked + div {
+    font-weight: 600 !important;
+    color: #3B82F6 !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+st.sidebar.markdown('<div class="sidebar-title">📘 AMATUS Insights</div>', unsafe_allow_html=True)
+
+with st.sidebar:
+    with st.container():
+        page = st.radio(
+            "Navigate",
+            ["Overview", "Score Distribution", "Anxiety Triggers", "Student Profiles"],
+            index=0,
+            label_visibility="collapsed",
+            key="nav_radio"
+        )
+
 
 amas_cols = [f"AMAS{i}" for i in range(1, 10)]
 amas_labels = {
