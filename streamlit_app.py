@@ -13,21 +13,6 @@ from sklearn.cluster import KMeans
 # ---------- PAGE CONFIG ----------
 st.set_page_config(page_title="AMATUS", layout="wide", page_icon="🧮")
 
-# ---------- LIGHT/DARK MODE TOGGLE ----------
-if "theme_mode" not in st.session_state:
-    st.session_state["theme_mode"] = "light"
-
-def toggle_theme():
-    st.session_state["theme_mode"] = (
-        "dark" if st.session_state["theme_mode"] == "light" else "light"
-    )
-
-st.sidebar.markdown("### Display Mode")
-st.sidebar.button(
-    "🌙 Toggle Light/Dark",
-    on_click=toggle_theme,
-    help="Switch between light and dark themes",
-)
 
 # ---------- GLOBAL CSS ----------
 st.markdown(
@@ -67,33 +52,6 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
-theme_mode = st.session_state["theme_mode"]
-
-if theme_mode == "dark":
-    st.markdown(
-        """
-        <style>
-        html, body, [class*="css"] {
-            background-color: #111827;
-            color: #f3f4f6;
-        }
-        .block-container {
-            background-color: #111827 !important;
-        }
-        .stRadio > div label {
-            color: #f3f4f6 !important;
-        }
-        h1, h2, h3, h4 {
-            color: #93c5fd;
-        }
-        a {
-            color: #60a5fa;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
 
 
 # ---------- THEME & GLOBAL STYLES ----------
