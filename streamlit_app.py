@@ -34,16 +34,39 @@ st.markdown(
 
 def amatus_theme():
     font = "Roboto"
-    axis_color = "#4e4e4e"
+    axis_color = "#374151"  # A softer charcoal
     return {
         "config": {
             "view": {"continuousWidth": 420, "continuousHeight": 300},
-            "axis": {"labelFont": font, "titleFont": font, "labelColor": axis_color, "titleColor": axis_color, "gridOpacity": 0.15},
+            "axis": {
+                "labelFont": font,
+                "titleFont": font,
+                "labelColor": axis_color,
+                "titleColor": axis_color,
+                "gridOpacity": 0.1,
+                "domainColor": "#D1D5DB",
+                "tickColor": "#D1D5DB",
+            },
             "legend": {"labelFont": font, "titleFont": font},
-            "title": {"font": font, "fontSize": 18, "anchor": "start", "color": axis_color},
-            "range": {"category": ["#4A90E2", "#50E3C2", "#F5A623", "#9013FE", "#D0021B", "#7ED321"]},
+            "title": {
+                "font": font,
+                "fontSize": 18,
+                "anchor": "start",
+                "color": axis_color,
+            },
+            "range": {
+                "category": [
+                    "#3B82F6",  # Blue
+                    "#F59E0B",  # Amber
+                    "#14B8A6",  # Teal
+                    "#9333EA",  # Purple
+                    "#EF4444",  # Red
+                    "#22C55E",  # Green
+                ]
+            },
         }
     }
+
 
 alt.themes.register("amatus", amatus_theme)
 alt.themes.enable("amatus")
