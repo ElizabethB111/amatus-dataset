@@ -376,9 +376,9 @@ elif page == "Student Profiles":
     # ---------- LAYOUT: scatter (left) | bars (right) ----------
     if st.session_state.get("screen_width", 1000) < 768:
     # Stack vertically on small screens
-    left = right = st.container()
+        left = right = st.container()
     else:
-    left, right = st.columns([3, 2], gap="small")
+        left, right = st.columns([3, 2], gap="small")
 
 
     # Scatter plot (left)
