@@ -304,7 +304,7 @@ elif page == "Anxiety Triggers":
         """
         - **Visual tasks** like *watching math on the board* or *starting a new topic* show the strongest anxiety links.  
         - **Passive learning** (e.g., lectures, peer explanations) also trigger higher anxiety.  
-        - **Actionable tip:** Minimize passive delivery and include **hands-on, interactive tasks** like narrated examples, whiteboard work, and manipulatives.
+        - **Actionable tip:** Minimize passive delivery and include **hands-on, interactive tasks** like narrated examples, mini whiteboard work, and manipulatives.
         """
     )
 
@@ -429,10 +429,13 @@ elif page == "Student Profiles":
         st.altair_chart(bar, use_container_width=True)
 
 #--------------------------------#
-
 else:  # Score Distribution
-    st.header("Score Distribution")
-    
+    st.markdown("## 📊 Score Distribution")
+    st.markdown(
+        "Explore how students scored across various measures, including math anxiety, arithmetic performance, and test-related self-concepts."
+    )
+
+    # Score selection
     opts = {
         "score_AMAS_total": "Math Anxiety Total",
         "score_AMAS_learning": "Math Anxiety Learning",
@@ -455,20 +458,24 @@ else:  # Score Distribution
         "score_TAI_short": "Scale: 5–20. Higher = more test anxiety.",
     }
 
-    m = st.selectbox("Select score", list(opts.keys()), format_func=lambda k: opts[k])
+    m = st.selectbox("Select a score to explore", list(opts.keys()), format_func=lambda k: opts[k])
 
+    # Responsive histogram
     hist = (
         alt.Chart(df)
         .mark_bar()
         .encode(
             x=alt.X(f"{m}:Q", bin=alt.Bin(maxbins=50), title=opts[m]),
-            y=alt.Y("count()", title="Number of Students")
+            y=alt.Y("count()", title="Number of Students"),
+            tooltip=[alt.Tooltip(f"{m}:Q", title=opts[m])]
         )
+        .properties(height=380)
     )
     st.altair_chart(hist, use_container_width=True)
 
-    # Show scale description
+    # Caption with context
     st.caption(scale_notes.get(m, ""))
+
 
 # ---------- FOOTER ----------
 st.markdown(
