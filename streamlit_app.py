@@ -256,7 +256,7 @@ if page == "Overview":
         st.markdown(
             "AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [More info](https://osf.io/gszpb/)."
             
-            " Data used in this dashboard was obtained from 848 German university students (teachers in the study were excluded by dashboard creators)."
+            " Data used in this dashboard was obtained from 848 German university students in 2023 (teachers in the study were excluded by dashboard creators)."
             
             " Click link above for full data explanation. Dashboard creators are unaffiliated with dataset collectors."
         )
@@ -487,13 +487,13 @@ else:  # Score Distribution
         "score_AMAS_learning": "Learning-related math anxiety is low in these students.",
         "score_AMAS_testing": "Test-related math anxiety is higher overall than learning anxiety.",
         "sum_arith_perf": "Arithmetic scores taken during the study are relatively low. Compare to evaluation anxiety.",
-        "score_SDQ_M": "Math self‑concept is fairly balanced, with many students rating themselves moderately.",
+        "score_SDQ_M": "Math self‑concept is fairly balanced, with many students rating themselves moderately high.",
         "score_PISA_ME": "Students show moderate to strong beliefs in their math capabilities.",
         "score_GAD": "General anxiety levels are skewed toward lower scores.",
         "score_TAI_short": "Test anxiety shows a moderate bell-shaped distribution, which makes sense in context of the math evaluation anxiety scores.",
     }
     st.markdown(f"**Summary:** {distribution_summaries.get(m, 'No summary available for this measure.')}")
-
+    st.write("Some self-reported measures appear contradictory to themselves or contradictory to performance on the arithmetic test, while other measures stay consistent."
 
 
 # ---------- FOOTER ----------
