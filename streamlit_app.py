@@ -385,4 +385,37 @@ else:  # Score Distribution
     # Show scale description
     st.caption(scale_notes.get(m, ""))
 
+# ---------- FOOTER ----------
+st.markdown(
+    """
+    <style>
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #f9fafb;
+        color: #6b7280;
+        text-align: center;
+        font-size: 0.85rem;
+        padding: 0.6rem 1rem;
+        border-top: 1px solid #e5e7eb;
+        z-index: 999;
+    }
+    .footer a {
+        color: #3B82F6;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    .footer a:hover {
+        text-decoration: underline;
+    }
+    </style>
+
+    <div class="footer">
+        Built for class (MESA 8714)  using Streamlit · Data from <a href="https://osf.io/gszpb/" target="_blank">AMATUS Study</a> · Last updated Aug 2025
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
