@@ -9,6 +9,8 @@ import altair as alt
 from pathlib import Path
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
+pip install streamlit-tour
+
 
 #----Detect screen width------
 import streamlit.components.v1 as components
