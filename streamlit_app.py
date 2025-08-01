@@ -257,10 +257,15 @@ if page == "Overview":
             "AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [More info](https://osf.io/gszpb/)."
         )
 
-
 elif page == "Anxiety Triggers":
-    st.header("Anxiety Triggers: What tasks cause most anxiety while learning math?")
-    
+    st.markdown("## 🔍 Anxiety Triggers")
+    st.markdown(
+        """
+        Which learning situations most strongly correlate with student anxiety?  
+        This chart shows the strength of relationship between **specific math tasks** and students’ math learning anxiety.
+        """
+    )
+
     # Compute correlations
     corrs = df[amas_cols + ["score_AMAS_learning"]].corr()
     cor_df = corrs.loc[amas_cols, "score_AMAS_learning"].reset_index()
@@ -274,38 +279,35 @@ elif page == "Anxiety Triggers":
     # Altair click selection
     selection = alt.selection_single(fields=["label"], empty="all")
 
-    # Chart
     chart = (
         alt.Chart(cor_df)
-        .mark_bar()
+        .mark_bar(size=20)
         .encode(
-            y=alt.Y("label:N", sort="-x", title="Task", axis=alt.Axis(labelLimit=1000, labelAlign="right", labelFontSize=12)),
+            y=alt.Y(
+                "label:N",
+                sort="-x",
+                title="Task",
+                axis=alt.Axis(labelLimit=1000, labelAlign="right", labelFontSize=12),
+            ),
             x=alt.X("corr:Q", title="Correlation with Math Learning Anxiety"),
-            color=alt.condition(selection, alt.value("#4A90E2"), alt.value("#d3d3d3")),
+            color=alt.condition(selection, alt.value("#3B82F6"), alt.value("#d1d5d5")),
             tooltip=["label:N", alt.Tooltip("corr:Q", format=".2f")],
         )
         .add_selection(selection)
-        .properties(height=420)
-        .configure_axis(labelFont="Roboto", titleFont="Roboto")
-        .configure_title(font="Roboto")
-        .configure_legend(labelFont="Roboto", titleFont="Roboto")
-
+        .properties(height=400)
     )
-
     st.altair_chart(chart, use_container_width=True)
 
-
-    # Executive Summary
-    st.markdown("---")
-    st.subheader("What This Means for Teachers")
+    # Executive Summary with mobile-friendly spacing
+    st.markdown("### 🧑‍🏫 What This Means for Teachers")
     st.markdown(
         """
-        - **Visual tasks like watching math on the board** or **starting a new topic** show the strongest links to learning anxiety.  
-        - **Passive learning situations** such as lectures and peer explanations are also high math anxiety triggers.  
-        - **Practical takeaway:** Reduce passive intake and increase **interactive, hands-on experiences** to lower anxiety.  
-        - Consider using **math manipulatives with narration and individual whiteboard work following along with the board** to ease students into new content.  
+        - **Visual tasks** like *watching math on the board* or *starting a new topic* show the strongest anxiety links.  
+        - **Passive learning** (e.g., lectures, peer explanations) also trigger higher anxiety.  
+        - **Actionable tip:** Minimize passive delivery and include **hands-on, interactive tasks** like narrated examples, whiteboard work, and manipulatives.
         """
     )
+
 
 #------------------------------#
 
