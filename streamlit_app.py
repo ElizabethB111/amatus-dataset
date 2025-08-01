@@ -493,7 +493,7 @@ else:  # Score Distribution
         "score_TAI_short": "Test anxiety shows a moderate bell-shaped distribution, which makes sense in context of the math evaluation anxiety scores.",
     }
     st.markdown(f"**Summary:** {distribution_summaries.get(m, 'No summary available for this measure.')}")
-    st.write("Some self-reported measures appear contradictory to themselves or contradictory to performance on the arithmetic test, while other measures stay consistent."
+    st.write("Some self-reported measures appear contradictory to themselves or contradictory to performance on the arithmetic test, while other measures stay consistent.")
 
 
 # ---------- FOOTER ----------
