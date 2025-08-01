@@ -303,7 +303,7 @@ elif page == "Anxiety Triggers":
     st.altair_chart(chart, use_container_width=True)
 
     # Executive Summary with mobile-friendly spacing
-    st.markdown("### 🧑‍🏫 What This Means for Teachers")
+    st.markdown("### What This Means for Teachers")
     st.markdown(
         """
         - **Visual tasks** like *watching math on the board* or *starting a new topic* show the strongest anxiety links.  
@@ -434,7 +434,7 @@ elif page == "Student Profiles":
 
 #--------------------------------#
 else:  # Score Distribution
-    st.markdown("## 📊 Score Distribution")
+    st.markdown("## Score Distribution")
     st.markdown(
         "Explore how students scored across various measures, including math anxiety, arithmetic performance, and test-related self-concepts."
     )
@@ -464,7 +464,6 @@ else:  # Score Distribution
 
     m = st.selectbox("Select a score to explore", list(opts.keys()), format_func=lambda k: opts[k])
 
-    # Responsive histogram
     hist = (
         alt.Chart(df)
         .mark_bar()
@@ -479,6 +478,20 @@ else:  # Score Distribution
 
     # Caption with context
     st.caption(scale_notes.get(m, ""))
+
+    # One-sentence summary
+    distribution_summaries = {
+        "score_AMAS_total": "Most students reported moderate to high overall math anxiety.",
+        "score_AMAS_learning": "Learning-related math anxiety clusters in the mid-to-high range.",
+        "score_AMAS_testing": "Test-related math anxiety shows more extreme values than learning anxiety.",
+        "sum_arith_perf": "Arithmetic scores are spread across the full range, with a slight concentration in the middle.",
+        "score_SDQ_M": "Math self‑concept is fairly balanced, with many students rating themselves moderately.",
+        "score_PISA_ME": "Students show moderate to strong beliefs in their math capabilities.",
+        "score_GAD": "General anxiety levels are skewed toward lower scores.",
+        "score_TAI_short": "Test anxiety shows a moderate bell-shaped distribution.",
+    }
+    st.markdown(f"**Summary:** {distribution_summaries.get(m, 'No summary available for this measure.')}")
+
 
 
 # ---------- FOOTER ----------
