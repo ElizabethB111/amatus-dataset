@@ -10,6 +10,37 @@ from pathlib import Path
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 
+#----Detect screen width------
+import streamlit.components.v1 as components
+
+st.markdown("""
+<script>
+    const width = window.innerWidth;
+    window.parent.postMessage({streamlitSetFrameHeight: true}, "*");
+    window.parent.postMessage({type: "streamlit:screenWidth", width: width}, "*");
+</script>
+""", unsafe_allow_html=True)
+
+# Capture screen width from frontend (via JavaScript event bridge)
+components.html("""
+<script>
+    const width = window.innerWidth;
+    const streamlitWidth = () => {
+        const streamlitWindow = window.parent;
+        streamlitWindow.postMessage({type: "streamlit:screenWidth", width: width}, "*");
+    };
+    window.addEventListener("resize", streamlitWidth);
+    streamlitWidth();
+</script>
+""", height=0)
+
+@st.experimental_fragment
+def read_width():
+    # fallback for small devices
+    st.session_state["screen_width"] = 768
+read_width()
+
+
 # ---------- PAGE CONFIG ----------
 st.set_page_config(page_title="AMATUS", layout="wide", page_icon="🧮")
 
@@ -52,6 +83,54 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+#-------Mobile Friendly Version-----#
+st.markdown("""
+<style>
+/* Make all content containers more flexible */
+.block-container {
+    padding: 1.5rem 2rem;
+    max-width: 100%;
+}
+
+/* Improve readability and spacing on smaller screens */
+@media screen and (max-width: 768px) {
+    .block-container {
+        padding: 1rem;
+    }
+
+    h1, h2, h3, h4 {
+        font-size: 1.2rem !important;
+    }
+
+    .overview-header {
+        font-size: 1.5rem !important;
+    }
+
+    .overview-sub {
+        font-size: 1rem !important;
+    }
+
+    .sidebar-title {
+        font-size: 1.2rem !important;
+    }
+
+    .dataset-badge {
+        font-size: 0.85rem;
+    }
+
+    .footer {
+        font-size: 0.75rem !important;
+        padding: 0.5rem !important;
+    }
+}
+
+/* Prevent sidebar radio buttons from crowding */
+.stRadio > div {
+    flex-direction: column;
+}
+</style>
+""", unsafe_allow_html=True)
 
 
 # ---------- THEME & GLOBAL STYLES ----------
@@ -118,7 +197,6 @@ else:
         st.stop()
     df = load_data(uploaded)
 
-# ---------- SIDEBAR NAV ----------
 # ---------- SIDEBAR ----------
 st.sidebar.markdown("""
 <style>
@@ -158,7 +236,7 @@ amas_labels = {
     "AMAS1": "Using math tables in a book", "AMAS2": "Thinking about a math test (1 day before)", "AMAS3": "Watching algebra on the board", "AMAS4": "Taking a math exam", "AMAS5": "Difficult math homework due next class", "AMAS6": "Listening to a math lecture", "AMAS7": "Listening to a peer explain math", "AMAS8": "Taking a pop quiz in math class", "AMAS9": "Starting a new math chapter",
 }
 
-# -------------------- OVERVIEW --------------------
+# -------------------- OVERVIEW --------------------------------
 # -------------------- PAGE SELECTION CONTROL FLOW --------------------
 
 if page == "Overview":
@@ -296,7 +374,12 @@ elif page == "Student Profiles":
     prof_df["hl"] = prof_df["profile"].isin(sel)
 
     # ---------- LAYOUT: scatter (left) | bars (right) ----------
+    if st.session_state.get("screen_width", 1000) < 768:
+    # Stack vertically on small screens
+    left = right = st.container()
+    else:
     left, right = st.columns([3, 2], gap="small")
+
 
     # Scatter plot (left)
     with left:
