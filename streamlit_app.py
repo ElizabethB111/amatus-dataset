@@ -68,6 +68,32 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+theme_mode = st.session_state["theme_mode"]
+
+if theme_mode == "dark":
+    st.markdown(
+        """
+        <style>
+        html, body, [class*="css"] {
+            background-color: #111827;
+            color: #f3f4f6;
+        }
+        .block-container {
+            background-color: #111827 !important;
+        }
+        .stRadio > div label {
+            color: #f3f4f6 !important;
+        }
+        h1, h2, h3, h4 {
+            color: #93c5fd;
+        }
+        a {
+            color: #60a5fa;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 # ---------- THEME & GLOBAL STYLES ----------
