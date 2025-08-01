@@ -311,7 +311,6 @@ elif page == "Anxiety Triggers":
 elif page == "Student Profiles":
     st.header("Student Profiles: What kinds of students are learning math?")
     # Profile explanations
-    st.subheader("What does each profile mean?")
     explanations = {
         "Quietly Struggling": (
             "These students have mild anxiety but still struggle with performance. "
