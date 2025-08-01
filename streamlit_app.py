@@ -254,9 +254,9 @@ if page == "Overview":
 
     with st.expander("About the underlying dataset"):
         st.markdown(
-            "AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [More info](https://osf.io/gszpb/).
-            Data used in this dashboard was obtained from 848 German university students (teachers in the study were excluded by dashboard creators).
-            Access link above for full data explanation. Dashboard creators are unaffiliated with dataset collectors."
+            "AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [More info](https://osf.io/gszpb/)."
+            "Data used in this dashboard was obtained from 848 German university students (teachers in the study were excluded by dashboard creators)."
+            "Access link above for full data explanation. Dashboard creators are unaffiliated with dataset collectors."
         )
 
 elif page == "Anxiety Triggers":
