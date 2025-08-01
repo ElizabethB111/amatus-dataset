@@ -247,7 +247,7 @@ if page == "Overview":
         Many students experience anxiety when learning math — a challenge that can affect their confidence and performance.  
         By understanding students and their math anxiety triggers, educators can better support learners where they need it most. 
         
-        Click below to examine the underlying dataset. Click on the left to begin exploring.
+        Click on the left to begin exploring; click below to explore the underlying data.
         """
     )
     st.image("math photo.png", width=300)
