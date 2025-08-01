@@ -34,7 +34,7 @@ components.html("""
 </script>
 """, height=0)
 
-@st.experimental_fragment
+@st.fragment
 def read_width():
     # fallback for small devices
     st.session_state["screen_width"] = 768
