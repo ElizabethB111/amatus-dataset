@@ -262,10 +262,10 @@ if page == "Overview":
         )
 
 elif page == "Anxiety Triggers":
-    st.markdown("## 🔍 Anxiety Triggers")
+    st.markdown("##  Anxiety Triggers: Which math learning tasks correlate with student anxiety?")
     st.markdown(
         """
-        Which learning situations most strongly correlate with student anxiety?  
+         
         This chart shows the strength of relationship between **specific math tasks** and students’ math learning anxiety.
         """
     )
