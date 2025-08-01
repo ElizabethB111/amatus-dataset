@@ -434,9 +434,9 @@ elif page == "Student Profiles":
 
 #--------------------------------#
 else:  # Score Distribution
-    st.markdown("## Score Distribution")
+    st.markdown("## Overall Score Distribution")
     st.markdown(
-        "Explore how students scored across various measures, including math anxiety, arithmetic performance, and test-related self-concepts."
+        "Explore how German university students in the study scored across various measures, including math anxiety, arithmetic performance, and test-related self-concepts."
     )
 
     # Score selection
