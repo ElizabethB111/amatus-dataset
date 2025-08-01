@@ -12,22 +12,45 @@ from sklearn.cluster import KMeans
 
 # ---------- PAGE CONFIG ----------
 st.set_page_config(page_title="AMATUS", layout="wide", page_icon="🧮")
+# ---------- GLOBAL CSS ----------
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
-    body, .markdown-text-container, .stTextInput > div > input {
-        font-family: 'Roboto', sans-serif !important;
+    html, body, [class*="css"] {
+        font-family: 'Roboto', sans-serif;
+        background-color: #ffffff;
+        color: #374151;
     }
 
-    .vega-embed * {
-        font-family: 'Roboto', sans-serif !important;
+    .block-container {
+        padding-top: 2rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+
+    h1, h2, h3, h4 {
+        color: #1f4e79;
+        font-weight: 600;
+    }
+
+    .stRadio > div {
+        gap: 0.5rem;
+    }
+
+    a {
+        color: #3B82F6;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
+
 
 
 # ---------- THEME & GLOBAL STYLES ----------
