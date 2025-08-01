@@ -245,8 +245,8 @@ if page == "Overview":
     st.markdown(
         """
         Many students experience anxiety when learning math — a challenge that can affect their confidence and performance.  
-        This dashboard helps educators and researchers explore key patterns in math learning anxiety and self-concept.  
-        By understanding student profiles and anxiety triggers, we can better support learners where they need it most. Click on the left to begin exploring.
+        By understanding students and their math anxiety triggers, educators can better support learners where they need it most. 
+        Click below to examine the underlying dataset. Click on the left to begin exploring.
         """
     )
     st.image("math photo.png", width=300)
