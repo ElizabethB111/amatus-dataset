@@ -245,12 +245,10 @@ if page == "Overview":
     st.markdown(
         """
         Many students experience anxiety when learning math — a challenge that can affect their confidence and performance.  
-        By understanding students and their math anxiety triggers, educators can better support learners where they need it most. 
-        
-        Click left to begin exploring; click below to explore the underlying AMATUS study.
+        By understanding students and their math anxiety triggers, educators can better support learners where they need it most. Click on the left to begin exploring..
         """
     )
-    st.image("math_photo3.png", width=600)
+    
 
     with st.expander("About the underlying dataset"):
         st.markdown(
@@ -260,7 +258,7 @@ if page == "Overview":
             
             " Click link above for full data explanation. Dashboard creators are unaffiliated with dataset collectors."
         )
-
+        st.image("math_photo3.png", width=600)
 elif page == "Anxiety Triggers":
     st.markdown("##  Anxiety Triggers: Which math learning tasks correlate with student anxiety?")
     st.markdown(
