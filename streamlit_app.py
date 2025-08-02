@@ -336,7 +336,7 @@ elif page == "Student Profiles":
 
     # Profile selector
     sel = st.multiselect(
-        "Select profiles",
+        "De-select profiles to focus on one:",
         prof_df["profile"].unique(),
         default=prof_df["profile"].unique(),
     )
