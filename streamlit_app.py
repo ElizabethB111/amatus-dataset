@@ -435,7 +435,7 @@ elif page == "Student Profiles":
 
 #--------------------------------#
 else:  # Psychological Scores 
-    st.markdown("## Overview of Psychological Test Scores )
+    st.markdown("## Overview of Psychological Test Scores" )
     st.markdown(
         "Explore how German university students in the study scored across various measures, including math anxiety, arithmetic performance, and test-related self-concepts."
     )
