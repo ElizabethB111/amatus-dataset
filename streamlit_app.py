@@ -161,12 +161,12 @@ def amatus_theme():
             },
             "range": {
                 "category": [
-                    "#3B82F6",  # Blue
-                    "#F59E0B",  # Amber
-                    "#14B8A6",  # Teal
-                    "#9333EA",  # Purple
-                    "#EF4444",  # Red
-                    "#22C55E",  # Green
+                    "#3B82F6",  
+                    "#F59E0B",  
+                    "#14B8A6", 
+                    "#9333EA",  
+                    "#EF4444", 
+                    "#22C55E",  
                 ]
             },
         }
