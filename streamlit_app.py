@@ -241,7 +241,7 @@ amas_labels = {
 
 if page == "Overview":
     st.header("AMATUS Study Insights")
-    st.subheader("🧮 What Constitutes Math Learning Anxiety?")
+    st.subheader("🧮 Understanding Math Learning Anxiety")
     st.markdown(
         """
         Many students experience anxiety when learning math — a challenge that can affect their confidence and performance.  
