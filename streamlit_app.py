@@ -249,13 +249,13 @@ if page == "Overview":
         """
     )
     
-    with st.expander("About AMATUS: the underlying dataset"):
+    with st.expander("What is AMATUS? Click to learn more."):
         st.markdown(
-            "AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [More info](https://osf.io/gszpb/)."
+            "AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [Click here for study link](https://osf.io/gszpb/)."
             
             " Data used in this dashboard was obtained from 848 German university students in 2023 (teachers in the study were excluded by dashboard creators)."
             
-            " Click link above for full data explanation. Dashboard creators are unaffiliated with dataset collectors."
+            " Dashboard creators are unaffiliated with dataset collectors."
         )
         
     st.image("math_photo4.png")
