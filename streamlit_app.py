@@ -341,7 +341,7 @@ elif page == "Student Profiles":
         default=prof_df["profile"].unique(),
     )
     prof_df["hl"] = prof_df["profile"].isin(sel)
-
+    st.write("Note: hover over a particular dot to see math self-concept score associated with anxiety & performance.")
     # ---------- LAYOUT: scatter (left) | bars (right) ----------
     if st.session_state.get("screen_width", 1000) < 768:
     # Stack vertically on small screens
