@@ -250,7 +250,7 @@ if page == "Overview":
         Click left to begin exploring; click below to explore the underlying AMATUS study.
         """
     )
-    st.image("math photo.png", width=300)
+    st.image("math_photo3.png", width=600)
 
     with st.expander("About the underlying dataset"):
         st.markdown(
