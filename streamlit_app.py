@@ -227,7 +227,7 @@ elif page == "Anxiety Triggers":
     st.markdown(
         """
          
-        This chart shows the strength of relationship between **specific math tasks** and students’ math learning anxiety.
+        This chart shows the strength of relationship between **specific math tasks** and students’ math learning anxiety. Click on a task to highlight. Hover over a task to see exact correlation.
         """
     )
 
