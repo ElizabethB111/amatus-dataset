@@ -224,7 +224,7 @@ with st.sidebar:
     with st.container():
         page = st.radio(
             "Navigate",
-            ["Overview", "Score Distribution", "Anxiety Triggers", "Student Profiles"],
+            ["Overview", "Psychological Scores", "Anxiety Triggers", "Student Profiles"],
             index=0,
             label_visibility="collapsed",
             key="nav_radio"
@@ -434,8 +434,8 @@ elif page == "Student Profiles":
         st.altair_chart(bar, use_container_width=True)
 
 #--------------------------------#
-else:  # Score Distribution
-    st.markdown("## Overall Score Distribution")
+else:  # Psychological Scores 
+    st.markdown("## Overview of Psychological Test Scores )
     st.markdown(
         "Explore how German university students in the study scored across various measures, including math anxiety, arithmetic performance, and test-related self-concepts."
     )
