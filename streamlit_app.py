@@ -159,12 +159,12 @@ def amatus_theme():
             },
             "range": {
                 "category": [
-                    "#3B82F6",  # Blue
-                    "#F59E0B",  # Amber
-                    "#14B8A6",  # Teal
-                    "#9333EA",  # Purple
-                    "#EF4444",  # Red
-                    "#22C55E",  # Green
+                    "#3B82F6",  
+                    "#F59E0B", 
+                    "#14B8A6",  
+                    "#9333EA", 
+                    "#EF4444",  
+                    "#22C55E",  
                 ]
             },
         }
@@ -240,14 +240,14 @@ amas_labels = {
 # -------------------- PAGE SELECTION CONTROL FLOW --------------------
 
 if page == "Overview":
-    st.header("AMATUS Insights")
+    st.header("AMATUS Study Insights")
     st.subheader("🧮 What Constitutes Math Learning Anxiety?")
     st.markdown(
         """
         Many students experience anxiety when learning math — a challenge that can affect their confidence and performance.  
         By understanding students and their math anxiety triggers, educators can better support learners where they need it most. 
         
-        Click on the left to begin exploring; click below to explore the underlying data.
+        Click left to begin exploring; click below to explore the underlying AMATUS study.
         """
     )
     st.image("math photo.png", width=300)
