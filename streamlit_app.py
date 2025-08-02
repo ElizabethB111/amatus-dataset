@@ -250,7 +250,7 @@ if page == "Overview":
     )
     
 
-    with st.expander("About the underlying dataset"):
+    with st.expander("About AMATUS: the underlying dataset"):
         st.markdown(
             "AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [More info](https://osf.io/gszpb/)."
             
