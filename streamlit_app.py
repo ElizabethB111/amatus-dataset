@@ -259,7 +259,7 @@ if page == "Overview":
             " Click link above for full data explanation. Dashboard creators are unaffiliated with dataset collectors."
         )
         
-    st.image("math_photo3.png", width=800)
+    st.image("math_photo4.png", width=800)
         
 elif page == "Anxiety Triggers":
     st.markdown("##  Anxiety Triggers: Which math learning tasks correlate with student anxiety?")
