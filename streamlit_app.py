@@ -1,7 +1,6 @@
 # -----------------------------
-# app.py – AMATUS Exploration
+# app.py – AMATUS
 # -----------------------------
-
 
 import streamlit as st
 import pandas as pd
@@ -21,7 +20,6 @@ st.markdown("""
 </script>
 """, unsafe_allow_html=True)
 
-# Capture screen width from frontend (via JavaScript event bridge)
 components.html("""
 <script>
     const width = window.innerWidth;
@@ -36,14 +34,11 @@ components.html("""
 
 @st.fragment
 def read_width():
-    # fallback for small devices
     st.session_state["screen_width"] = 768
 read_width()
 
-
 # ---------- PAGE CONFIG ----------
-st.set_page_config(page_title="AMATUS", layout="wide", page_icon="🧮")
-
+st.set_page_config(page_title="AMATUS", layout="wide", page_icon="🭮")
 
 # ---------- GLOBAL CSS ----------
 st.markdown(
@@ -58,9 +53,8 @@ st.markdown(
     }
 
     .block-container {
-        padding-top: 2rem;
-        padding-left: 3rem;
-        padding-right: 3rem;
+        padding: 1rem 2rem 2rem 2rem;
+        max-width: 100%;
     }
 
     h1, h2, h3, h4 {
@@ -79,65 +73,44 @@ st.markdown(
     a:hover {
         text-decoration: underline;
     }
+
+    @media screen and (max-width: 768px) {
+        .block-container {
+            padding: 1rem;
+        }
+        h1, h2, h3, h4 {
+            font-size: 1.2rem !important;
+        }
+        .overview-header {
+            font-size: 1.5rem !important;
+        }
+        .overview-sub {
+            font-size: 1rem !important;
+        }
+        .sidebar-title {
+            font-size: 1.2rem !important;
+        }
+        .dataset-badge {
+            font-size: 0.85rem;
+        }
+        .footer {
+            font-size: 0.75rem !important;
+            padding: 0.5rem !important;
+        }
+    }
+
+    .stRadio > div {
+        flex-direction: column;
+    }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-#-------Mobile Friendly Version-----#
-st.markdown("""
-<style>
-/* Make all content containers more flexible */
-.block-container {
-    padding: 1.5rem 2rem;
-    max-width: 100%;
-}
-
-/* Improve readability and spacing on smaller screens */
-@media screen and (max-width: 768px) {
-    .block-container {
-        padding: 1rem;
-    }
-
-    h1, h2, h3, h4 {
-        font-size: 1.2rem !important;
-    }
-
-    .overview-header {
-        font-size: 1.5rem !important;
-    }
-
-    .overview-sub {
-        font-size: 1rem !important;
-    }
-
-    .sidebar-title {
-        font-size: 1.2rem !important;
-    }
-
-    .dataset-badge {
-        font-size: 0.85rem;
-    }
-
-    .footer {
-        font-size: 0.75rem !important;
-        padding: 0.5rem !important;
-    }
-}
-
-/* Prevent sidebar radio buttons from crowding */
-.stRadio > div {
-    flex-direction: column;
-}
-</style>
-""", unsafe_allow_html=True)
-
-
 # ---------- THEME & GLOBAL STYLES ----------
-
 def amatus_theme():
     font = "Roboto"
-    axis_color = "#374151"  
+    axis_color = "#374151"
     return {
         "config": {
             "view": {"continuousWidth": 420, "continuousHeight": 300},
@@ -159,26 +132,15 @@ def amatus_theme():
             },
             "range": {
                 "category": [
-                    "#3B82F6",  
-                    "#F59E0B", 
-                    "#14B8A6",  
-                    "#9333EA", 
-                    "#EF4444",  
-                    "#22C55E",  
+                    "#3B82F6", "#F59E0B", "#14B8A6",
+                    "#9333EA", "#EF4444", "#22C55E"
                 ]
             },
         }
     }
 
-
 alt.themes.register("amatus", amatus_theme)
 alt.themes.enable("amatus")
-
-# Minimal CSS
-st.markdown(
-    """<style>.block-container{padding-top:1rem}h1,h2,h3,h4{color:#1f4e79}</style>""",
-    unsafe_allow_html=True,
-)
 
 # ---------- DATA LOADING ----------
 DATA_PATH = Path("AMATUS_dataset.txt")
@@ -187,7 +149,7 @@ DATA_PATH = Path("AMATUS_dataset.txt")
 def load_data(path: Path) -> pd.DataFrame:
     df = pd.read_csv(path, sep=";")
     return df[~df["sample"].isin(["german_students"])]
-    
+
 if DATA_PATH.exists():
     df = load_data(DATA_PATH)
 else:
