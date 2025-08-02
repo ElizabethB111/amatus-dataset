@@ -282,16 +282,16 @@ elif page == "Student Profiles":
     st.header("Student Profiles: What kinds of students are learning math?")
     # Profile explanations
     explanations = {
-        "Quietly Struggling": (
-            "These students have mild anxiety but still struggle with performance. "
-            "They may benefit from targeted academic support or confidence-building."
+        "Relaxed & Struggling": (
+            "These students have lower anxiety but still struggle with performance. "
+            "They may benefit from targeted academic support."
         ),
         "Stressed & Struggling": (
-            "These students experience high anxiety and low performance. "
+            "These students experience higher anxiety and low performance. "
             "They may feel overwhelmed and need both emotional and academic intervention."
         ),
-        "Capable but Cautious": (
-            "These students perform well despite some anxiety. "
+        "Capable & Mildly Relaxed": (
+            "These students perform well with some anxiety. "
             "They have a healthy self-concept and might just need reassurance to keep thriving."
         ),
     }
@@ -309,9 +309,9 @@ elif page == "Student Profiles":
             StandardScaler().fit_transform(clean[feats])
         )
         label_map = {
-            0: "Quietly Struggling",
+            0: "Relaxed & Struggling",
             1: "Stressed & Struggling",
-            2: "Capable but Cautious",
+            2: "Capable & Mildly Relaxed",
         }
         clean["profile"] = pd.Series(km.labels_, index=clean.index).map(label_map)
 
