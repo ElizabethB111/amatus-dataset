@@ -245,7 +245,7 @@ if page == "Overview":
     st.markdown(
         """
         Many students experience anxiety when learning math — a challenge that can affect their confidence and performance.  
-        By understanding students and their math anxiety triggers, educators can better support learners where they need it most. Click on the left to begin exploring..
+        By understanding students and their math anxiety triggers, educators can better support learners where they need it most. Click on the left to begin exploring.
         """
     )
     
