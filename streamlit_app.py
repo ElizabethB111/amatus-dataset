@@ -213,7 +213,7 @@ if page == "Overview":
     )
     
     with st.expander("What is AMATUS? Click to learn more."):
-    st.markdown(
+        st.markdown(
         """
 - **AMATUS** stands for *Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students*. [Click here for study link](https://osf.io/gszpb/).
 
