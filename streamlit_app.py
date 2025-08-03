@@ -299,7 +299,7 @@ elif page == "Student Profiles":
             "These students experience higher anxiety and low performance. "
             "They may feel overwhelmed and need both emotional and academic intervention."
         ),
-        "Capable & Mildly Relaxed": (
+        "Capable & Moderately Anxious": (
             "These students perform well with some anxiety. "
             "They have a healthy self-concept and might just need reassurance to keep thriving."
         ),
@@ -320,7 +320,7 @@ elif page == "Student Profiles":
         label_map = {
             0: "Relaxed & Struggling",
             1: "Stressed & Struggling",
-            2: "Capable & Mildly Relaxed",
+            2: "Capable & Moderately Anxious",
         }
         clean["profile"] = pd.Series(km.labels_, index=clean.index).map(label_map)
 
