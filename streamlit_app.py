@@ -207,17 +207,22 @@ if page == "Overview":
     st.markdown(
         """
         Many students experience anxiety when learning math — a challenge that can affect their confidence and performance.  
-        By understanding students and their math anxiety triggers, educators can better support learners where they need it most. Click on the left to begin exploring.
+        By understanding students and their math anxiety triggers, educators can better support learners where they need it most. Research on German university students 
+        Click on the left to begin exploring.
         """
     )
     
     with st.expander("What is AMATUS? Click to learn more."):
         st.markdown(
-            "AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [Click here for study link](https://osf.io/gszpb/)."
+            "--AMATUS stands for **Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students**. [Click here for study link](https://osf.io/gszpb/)."
             
-            " Data used in this dashboard was obtained from 848 German university students in 2023 (teachers in the study were excluded by dashboard creators)."
+            "--Data used in this dashboard was obtained online from 848 German university students in June 2017. Respondents were students at the 
+                University of Tuebingen (Baden-Wuerttemberg in South-West Germany).
+                
+            --The AMATUS dataset includes German & Belgian teachers; however, all teachers were excluded by dashboard creators in the creation of this page."
             
-            " Dashboard creators are unaffiliated with dataset collectors."
+            "--Dashboard creators are unaffiliated with AMATUS study."
+            "--AMATUS study contributors: Krzysztof Cipora, Maristella Lunardon, Nicolas Masson, Carrie Georges, Hans-Christoph Nuerk, Christina Artemenko."
         )
         
     st.image("math-anxiety.jpeg", width=1400)
