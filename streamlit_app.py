@@ -227,7 +227,7 @@ if page == "Overview":
         """
     )
 
-st.image("math-anxiety.jpeg", width=1400)
+    st.image("math-anxiety.jpeg", width=1400)
 
 
         
