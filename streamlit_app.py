@@ -143,7 +143,7 @@ alt.themes.register("amatus", amatus_theme)
 alt.themes.enable("amatus")
 
 # ---------- DATA LOADING ----------
-DATA_PATH = Path("AMATUS_dataset.txt")
+DATA_PATH = Path("data/AMATUS_dataset.txt")
 
 @st.cache_data(show_spinner=False)
 def load_data(path: Path) -> pd.DataFrame:
