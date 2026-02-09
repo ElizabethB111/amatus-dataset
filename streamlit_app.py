@@ -215,7 +215,7 @@ if page == "Overview":
     with st.expander("What is AMATUS? Click to learn more."):
         st.markdown(
         """
-- **AMATUS** stands for *Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students*. [Click here for study link](https://osf.io/gszpb/).
+- **AMATUS** stands for *Arithmetic Performance, Mathematics Anxiety and Attitudes in Primary School Teachers and University Students*. [Click here for study link](https://osf.io/gszpb/files/osfstorage).
 
 - Data used in this dashboard was obtained online from 848 German university students in June 2017. Respondents were students at the University of Tuebingen (Baden-Wuerttemberg in South-West Germany).
 
