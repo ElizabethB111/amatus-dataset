@@ -81,10 +81,16 @@ The dashboard groups students into interpretable profiles based on performance a
 amatus-dataset/
 ├── streamlit_app.py # Main Streamlit application
 ├── data/ # Processed AMATUS dataset for the dashboard
+│ ├── raw/ # Original data files (not modified)
+│ └── processed/ # Cleaned / transformed data for the app
 ├── decorations/ # Visual assets used in the app (images/screenshots)
+│ ├── dashboard_overview.png
+│ ├── psych_test_scores.png
+│ ├── anxiety_triggers.png
+│ └── student_profiles.png
 ├── requirements.txt # Python dependencies
 ├── README.md # Project documentation
-└── LICENSE
+└── LICENSE # License file
 
 
 GitHub
