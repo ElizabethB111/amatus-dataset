@@ -6,7 +6,7 @@ AMATUS Study Insights is an interactive Streamlit dashboard designed to explore 
 
 AMATUS stands for **Arithmetic Performance, Mathematics Anxiety, and Attitudes in Primary School Teachers and University Students**.
 
-![Dashboard Overview](decorations/Screen Shot 2026-02-09 at 5.08.03 PM.png)
+![Dashboard Overview](decorations/overview.png)
 
 ---
 
@@ -30,7 +30,7 @@ Users can explore how students scored across several self-reported measures, inc
 - Test-related self-concepts
 - Attitudes toward mathematics
 
-![Psychological Test Scores](decorations/Screen Shot 2026-02-09 at 5.09.03 PM.png)
+![Psychological Test Scores](decorations/psychological.png)
 
 ---
 
@@ -52,7 +52,7 @@ This section visualizes correlations between specific math learning tasks and re
 **Actionable Insight for Educators:**  
 Reduce prolonged passive instruction and incorporate interactive strategies (narrated examples, manipulatives, mini whiteboards, guided problem solving).
 
-![Anxiety Triggers](decorations/anxiety_triggers.png)
+![Anxiety Triggers](decorations/anxiety.png)
 
 ---
 
@@ -62,7 +62,7 @@ The dashboard groups students into interpretable profiles based on performance a
 - Highlights that anxiety and performance do not always align
 - Supports nuanced instructional responses
 
-![Student Profiles](decorations/Screen Shot 2026-02-09 at 5.09.46 PM.png)
+![Student Profiles](decorations/profiles.png)
 
 ---
 
