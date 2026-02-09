@@ -11,7 +11,7 @@ AMATUS stands for Arithmetic Performance, Mathematics Anxiety and Attitudes in P
 
 Data Source & Study Context
 
-The dashboard uses publicly available data collected in June 2017 from 848 German university students at the University of Tuebingen (Baden-Wuerttemberg, South-West Germany).
+The dashboard uses publicly available data collected in June 2017 from 848 German university students at the University of Tuebingen (Baden-Wuerttemberg, South-West Germany). See AMATUS project on OSF website for details and data dictionary https://osf.io/gszpb/files/osfstorage. 
 
 While the full AMATUS dataset includes both teachers and university students from Germany and Belgium, all teacher data were intentionally excluded in the creation of this dashboard to focus specifically on student experiences.
 
