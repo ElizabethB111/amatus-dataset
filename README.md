@@ -8,6 +8,8 @@ AMATUS stands for **Arithmetic Performance, Mathematics Anxiety, and Attitudes i
 
 ![Dashboard Overview](decorations/overview.png)
 
+View live app at https://amatus-dataset.streamlit.app/ 
+
 ---
 
 ## Data Source & Study Context
@@ -76,7 +78,13 @@ The dashboard groups students into interpretable profiles based on performance a
 ---
 
 ## Repository Structure
-
+amatus-dataset/
+├── streamlit_app.py # Main Streamlit application
+├── data/ # Processed AMATUS dataset for the dashboard
+├── decorations/ # Visual assets used in the app (images/screenshots)
+├── requirements.txt # Python dependencies
+├── README.md # Project documentation
+└── LICENSE
 
 
 GitHub
